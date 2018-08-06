@@ -1,0 +1,2 @@
+C:\Users\lukas\Desktop\POSIDigitalPrinter\PDAPIUtil\PDAPIUtil.csproj;neutral
+C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\POSIDigitalPrinter.csproj;x64

@@ -1,0 +1,421 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:POSIDigitalPrinter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:POSIDigitalPrinter.View"
+    x:Class="POSIDigitalPrinter.MainPage"
+    mc:Ignorable="d"
+    Background="LightGray"
+    IsEnabled="True"
+    IsTabStop="True"
+    TabIndex="1"
+    KeyUp="Page_KeyDown"
+    SizeChanged="Page_SizeChanged">
+
+    <Grid
+        x:Name="grid"
+        Background="LightGray"
+        Margin="5" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="320*"/>
+        </Grid.RowDefinitions>
+
+        <Ellipse
+            x:Name="elipStatusSocketConnection"
+            Width="18"
+            Height="18" 
+            Margin="10,20,0,0" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Left" 
+            Fill="Red" />
+
+        <Ellipse
+            x:Name="elipStatusSocketData"
+            Width="18"
+            Height="18" 
+            Margin="30,20,0,0" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Left" 
+            Fill="Green"/>
+
+        <TextBlock Name="tbAtendimento"
+                   Grid.Row="0"
+                   HorizontalAlignment="Left" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Margin="50,7,0,0">
+            <Run Text="Total Atendimento :" FontSize="30"/><Run/>
+        </TextBlock>
+
+        <TextBlock x:Name="tbMedia" 
+                   Grid.Row="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0,7,0,0">
+            <Run FontSize="30" Text="Média de Atendimento: 7:00"/>
+        </TextBlock>
+
+        <TextBlock x:Name="tbPag"
+                   Grid.Row="0"
+                   VerticalAlignment="Top"
+                   Margin="0,7,10,0"
+                   HorizontalAlignment="Right"
+                   FontSize="30" 
+                   Text="Conta: 0/0">
+        </TextBlock>
+
+        <TextBlock x:Name="tbPor"
+                   Grid.Row="0"
+                   VerticalAlignment="Top"
+                   Margin="0,7,200,0"
+                   HorizontalAlignment="Right" 
+                   Width="57">
+            <Run FontSize="30" Text="85%"/>
+        </TextBlock>
+
+
+        <GridView x:Name="ctrlGridView" 
+                  Grid.Row="1" 
+                  Margin="2" 
+                  SelectionMode="Single"
+                  IsItemClickEnabled="False"
+                  SelectionChanged="ctrlGridView_SelectionChanged">
+        </GridView>
+
+        <ContentDialog x:Name="MyContentDialog"
+                        VerticalAlignment="Stretch"
+                        Title="Configurações"
+                        IsPrimaryButtonEnabled="{Binding IsChecked, ElementName=checkBoxAgree, Mode=OneWay}"
+                        Grid.Row="2"
+                        Visibility="Visible">
+
+            <Grid Width="370" Height="310" >
+
+                <ListView 
+                    x:Name="lvConfig"
+                    KeyUp="MyContentDialog_KeyUp"
+                    KeyDown="lvConfig_KeyDown">
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="Padding" Value="0,0,0,0"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    
+                    <!--     EXIBIR CONTAS EM LISTA      -->
+                    <ListViewItem>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <TextBlock
+                                x:Name="tbViewMode"
+                                Text="Exibir as contas em lista :" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+
+                            <ToggleSwitch 
+                                x:Name="tgViewMode"
+                                HorizontalAlignment="Left" 
+                                Margin="220,4,0,0" 
+                                VerticalAlignment="Top" 
+                                Width="93" 
+                                Height="38"
+                                Toggled="ToggleSwitch_Toggled"/>
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--     TIPO DA TELA      -->
+                    <ListViewItem>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="358">
+                            <TextBlock
+                                x:Name="tbViewMode1"
+                                Text="Tipo da tela :" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+
+                            <TextBlock
+                                x:Name="tbTpTela"
+                                FontSize="19"
+                                Text="Cozinha"
+                                Margin="0,10,0,0" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Center" 
+                                TextAlignment="Right"
+                                Width="109"
+                                />
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--     API IP      -->
+                    <ListViewItem>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <TextBlock 
+                                Text="API IP:" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+                            
+                            <Grid Margin="120,0,0,0">
+                                <TextBlock x:Name="tbipA1"
+                                Text="192" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="104,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="138,10,0,0"/>
+
+                                <TextBlock x:Name="tbipA2"
+                                Text="168" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="142,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                Margin="175,10,0,0"/>
+
+                                <TextBlock x:Name="tbipA3"
+                                Text="10" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                TextAlignment="Center"
+                                Width="32"
+                                Margin="180,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="212,10,0,0"/>
+
+                                <TextBlock x:Name="tbipA4"
+                                Text="10" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="217,10,0,0"/>
+                            </Grid>
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--     API PORT      -->
+                    <ListViewItem>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <TextBlock 
+                                Text="API Port :" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+                            <Grid Margin="296,0,0,0">
+
+                                <TextBlock x:Name="tbPortAPI1"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="0,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortAPI2"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="13,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortAPI3"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                TextAlignment="Center"
+                                Margin="26,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortAPI4"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="39,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortAPI5"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="52,10,0,0"/>
+                            </Grid>
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--     SOCKET IP      -->
+                    <ListViewItem>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <TextBlock 
+                                Text="Socket IP :" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+                            <Grid Margin="120,0,0,0">
+
+                                <TextBlock x:Name="tbipS1"
+                                Text="192" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="104,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="138,10,0,0"/>
+
+                                <TextBlock x:Name="tbipS2"
+                                Text="168" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="142,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                Margin="175,10,0,0"/>
+
+                                <TextBlock x:Name="tbipS3"
+                                Text="10" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                TextAlignment="Center"
+                                Width="32"
+                                Margin="180,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="212,10,0,0"/>
+
+                                <TextBlock x:Name="tbipS4"
+                                Text="10" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="217,10,0,0"/>
+                            </Grid>
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--     SOCKET PORT      -->
+                    <ListViewItem>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <TextBlock 
+                                Text="Socket Port:" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+                            <Grid Margin="296,0,0,0">
+
+                                <TextBlock x:Name="tbPortSOC1"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="0,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortSOC2"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="13,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortSOC3"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                TextAlignment="Center"
+                                Margin="26,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortSOC4"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="39,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortSOC5"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="52,10,0,0"/>
+                            </Grid>
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--     SALVAR     -->
+                    <ListViewItem>
+                        <Button 
+                            Content="Salvar"
+                            FontSize="20"
+                            Width="370"
+                            Height="37"/>
+                    </ListViewItem>
+
+                </ListView>
+            </Grid>
+            
+            
+
+        </ContentDialog>
+        <RelativePanel HorizontalAlignment="Left" Height="100" Margin="648,436,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
+
+    </Grid>
+
+
+
+
+</Page>

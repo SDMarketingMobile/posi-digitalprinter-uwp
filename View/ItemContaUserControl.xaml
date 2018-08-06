@@ -1,0 +1,78 @@
+﻿<UserControl
+    x:Class="POSIDigitalPrinter.View.ItemContaUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:POSIDigitalPrinter.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="70"
+    d:DesignWidth="329">
+
+    <Grid x:Name="grid" Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Ellipse 
+            Height="22"
+            Width="22"
+            Margin="5,7,0,0" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Left"  
+            Fill="Black"/>
+
+        <Ellipse
+            x:Name="elipStatusItem"
+            Width="18"
+            Height="18" 
+            Margin="7,9,0,0" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Left" 
+            Fill="White" />
+
+        <TextBlock 
+            x:Name="tbItemName"
+            Text="Produto" 
+            FontSize="18" 
+            Margin="30,5,0,0" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top">
+        </TextBlock>
+
+        <TextBlock 
+            x:Name="tbPrepareTime" 
+            Text="00:00" 
+            FontSize="18" 
+            Margin="0,5,5,0" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Top"/>
+
+        <TextBlock 
+            x:Name="tbExecutingTime" 
+            Text="00:00" 
+            FontSize="18" 
+            Margin="0,5,65,0" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Top" />
+
+        <StackPanel 
+            x:Name="stpAdicional" 
+            Margin="25,29,0,23"
+            Background="Transparent" 
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Left"
+            Orientation="Vertical"/>
+
+        <TextBlock 
+            x:Name="tbCombinado" 
+            Text="(#Combinado)" 
+            FontSize="18" 
+            Margin="30,0,0,0" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Bottom" 
+            Height="24"
+            Visibility="Collapsed"/>
+
+    </Grid>
+</UserControl>
