@@ -583,6 +583,21 @@
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\POSIDigitalPrinter.xr.xml">
       <PackagePath>POSIDigitalPrinter.xr.xml</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\App.xbf">
+      <PackagePath>App.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\MainPage.xbf">
+      <PackagePath>MainPage.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\Themes\Generic.xbf">
+      <PackagePath>Themes\Generic.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\View\ContaUserControl.xbf">
+      <PackagePath>View\ContaUserControl.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\View\ItemContaUserControl.xbf">
+      <PackagePath>View\ItemContaUserControl.xbf</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
     </AppxPackagedFile>

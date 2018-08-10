@@ -56,15 +56,7 @@
             HorizontalAlignment="Right" 
             VerticalAlignment="Top" />
 
-        <StackPanel x:ConnectionId='7' 
-            x:Name="stpAdicional" 
-            Margin="25,29,0,23"
-            Background="Transparent" 
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Left"
-            Orientation="Vertical"/>
-
-        <TextBlock x:ConnectionId='8' 
+        <TextBlock x:ConnectionId='7' 
             x:Name="tbCombinado" 
             Text="(#Combinado)" 
             FontSize="18" 
@@ -73,6 +65,13 @@
             VerticalAlignment="Bottom" 
             Height="24"
             Visibility="Collapsed"/>
+
+        <StackPanel x:ConnectionId='8'
+            x:Name="stpAdicional"
+            Margin="25,29,0,23"
+            Background="Transparent"
+            HorizontalAlignment="Left"
+            Orientation="Vertical"/>
 
     </Grid>
 </UserControl>

@@ -19,25 +19,25 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>B3E3678B32195F96DAC5BDFBA0ADE7D9750AF2EC0387915031BB7B809DCC20E8</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>b3daac66-4c11-468b-a371-992879517bab_1.0.3.0_x64__0mjf9ys29jc64</RegisteredPackageMoniker>
+    <RegisteredManifestChecksum>7085268A3776BE8C566740ADBD95088B84C23E9F22C02AE9392060F95FBECB6D</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>b3daac66-4c11-468b-a371-992879517bab_1.0.4.0_x64__0mjf9ys29jc64</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>b3daac66-4c11-468b-a371-992879517bab_0mjf9ys29jc64!App</RegisteredUserModeAppID>
     <RegisteredPackageID>b3daac66-4c11-468b-a371-992879517bab</RegisteredPackageID>
     <RegisteredPackagePublisher>CN=lukas</RegisteredPackagePublisher>
-    <RegisteredVersion>1.0.3.0</RegisteredVersion>
+    <RegisteredVersion>1.0.4.0</RegisteredVersion>
     <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
   </PropertyGroup>
   <ItemGroup>
     <AppXManifest Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-08-09T10:54:46.321</Modified>
+      <Modified>2018-08-10T14:22:30.245</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\POSIDigitalPrinter.exe">
       <PackagePath>entrypoint\POSIDigitalPrinter.exe</PackagePath>
-      <Modified>2018-08-09T10:54:42.036</Modified>
+      <Modified>2018-08-10T14:22:06.737</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\lukas\.nuget\packages\flurl\2.8.0\lib\netstandard2.0\Flurl.dll">
       <PackagePath>Flurl.dll</PackagePath>
@@ -775,27 +775,27 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\POSIDigitalPrinter.xr.xml">
       <PackagePath>POSIDigitalPrinter.xr.xml</PackagePath>
-      <Modified>2018-08-08T19:03:57.914</Modified>
+      <Modified>2018-08-10T14:22:05.554</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2018-08-09T10:54:41.756</Modified>
+      <Modified>2018-08-10T14:22:06.126</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2018-08-09T10:54:41.757</Modified>
+      <Modified>2018-08-10T14:22:06.127</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\Themes\Generic.xbf">
       <PackagePath>Themes\Generic.xbf</PackagePath>
-      <Modified>2018-08-09T10:54:41.756</Modified>
+      <Modified>2018-08-10T14:22:06.126</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\View\ContaUserControl.xbf">
       <PackagePath>View\ContaUserControl.xbf</PackagePath>
-      <Modified>2018-08-09T10:54:41.757</Modified>
+      <Modified>2018-08-10T14:22:06.127</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\View\ItemContaUserControl.xbf">
       <PackagePath>View\ItemContaUserControl.xbf</PackagePath>
-      <Modified>2018-08-09T10:54:41.758</Modified>
+      <Modified>2018-08-10T14:22:06.128</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -804,11 +804,11 @@
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-08-08T20:54:12.509</Modified>
+      <Modified>2018-08-10T14:22:24.887</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\Core\POSIDigitalPrinter.exe">
       <PackagePath>POSIDigitalPrinter.exe</PackagePath>
-      <Modified>2018-08-09T10:54:46.304</Modified>
+      <Modified>2018-08-10T14:22:30.241</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

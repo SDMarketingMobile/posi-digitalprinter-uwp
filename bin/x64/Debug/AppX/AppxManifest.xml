@@ -7,7 +7,7 @@
 
     Para obter mais informações sobre arquivos de pacote de manifesto consulte http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="b3daac66-4c11-468b-a371-992879517bab" Publisher="CN=lukas" Version="1.0.3.0" ProcessorArchitecture="x64" />
+  <Identity Name="b3daac66-4c11-468b-a371-992879517bab" Publisher="CN=lukas" Version="1.0.4.0" ProcessorArchitecture="x64" />
   <mp:PhoneIdentity PhoneProductId="b3daac66-4c11-468b-a371-992879517bab" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>POSIDigitalPrinter</DisplayName>
