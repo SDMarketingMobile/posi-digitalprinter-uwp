@@ -13,7 +13,6 @@ namespace POSIDigitalPrinter
 {
     public sealed partial class MainPage : Page
     {
-        bool statusViewMode = false;
         int configView = 0;
         bool statusEnter = false;
         bool enterUpdate = false;
@@ -24,44 +23,50 @@ namespace POSIDigitalPrinter
         int qtdConta = 0;
 
         bool ipConfigA = false;
-        int ipA1 = 192;
-        int ipA2 = 168;
-        int ipA3 = 10;
-        int ipA4 = 10;
+        int ipA1 = 000;
+        int ipA2 = 000;
+        int ipA3 = 000;
+        int ipA4 = 000;
         int ipIndexA = 0;
-
-        bool ipConfigS = false;
-        int ipS1 = 192;
-        int ipS2 = 168;
-        int ipS3 = 10;
-        int ipS4 = 10;
-        int ipIndexS = 0;
 
         bool prtConfigA = false;
         int prtA1, prtA2, prtA3, prtA4, prtA5 , prtIndexA;
 
         bool prtConfigS = false;
         int prtS1, prtS2, prtS3, prtS4, prtS5 , prtIndexS;
-        
+
+        Utils.SettingsUtil settingsUtil = Utils.SettingsUtil.Instance;
+        Model.Settings localSettings;
+
         public MainPage()
         {
             this.InitializeComponent();
+            localSettings = settingsUtil.GetSettings();
 
-            var settings = new Model.Settings();
-            settings.ApiIp = "192.168.0.5";
-            settings.ApiPort = 3000;
-            settings.ViewMode = Model.ViewMode.GRID;
-            settings.ScreenType = Model.ScreenType.PRODUCTION;
+            if(localSettings.ApiIp == null)
+            {
+                var settings = new Model.Settings();
+                settings.ApiIp = "192.168.0.5";
+                settings.ApiPort = 3000;
+                settings.LocalSocketPort = 9000;
+                settings.ViewMode = Model.ViewMode.GRID;
+                settings.ScreenType = Model.ScreenType.PRODUCTION;
 
-            Utils.SettingsUtil.Instance.SaveSettings(settings);
+                settingsUtil.SaveSettings(settings);
+            }
 
-            this.StartSocketServer();
+            LoadConfig();
+
+            if (localSettings != null && localSettings.LocalSocketPort > 0)
+            {
+                this.StartSocketServer();
+            }
         }
         private Utils.SocketServer socket;
 
         private void StartSocketServer()
         {
-            this.socket = new Utils.SocketServer(9000);
+            this.socket = new Utils.SocketServer(localSettings.LocalSocketPort);
             this.socket.Start();
             this.socket.OnError += Socket_OnError;
             this.socket.OnDataReceived += Socket_OnDataReceived;
@@ -146,9 +151,7 @@ namespace POSIDigitalPrinter
         public void addAccountView(Account account)
         {
             this.BlinkSocketDataReceiving();
-            Model.ScreenSetting screenData = new Model.ScreenSetting();
-            screenData.ViewMode = statusViewMode;
-            View.ContaUserControl contaUC = new View.ContaUserControl(account, screenData);
+            View.ContaUserControl contaUC = new View.ContaUserControl(account);
 
             this.ctrlGridView.Items.Add(contaUC);
 
@@ -167,6 +170,7 @@ namespace POSIDigitalPrinter
             System.Diagnostics.Debug.WriteLine(message);
         }
 
+        // ------------------------------- NAVEGAÇÃO DO TECLADO ---------------------------------------- //
         private async void Page_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if(configView == 0)
@@ -174,9 +178,8 @@ namespace POSIDigitalPrinter
                 switch (e.Key)
                 {
                     // --------- ADD CONTA ----------
-                    case VirtualKey.Number8:
-                        Model.ScreenSetting screenData = new Model.ScreenSetting();
-                        screenData.ViewMode = statusViewMode;
+                    case VirtualKey.Number8:;
+                        localSettings = settingsUtil.GetSettings();
 
                         Account contaData = new Account();
 
@@ -273,7 +276,8 @@ namespace POSIDigitalPrinter
                     case VirtualKey.Number0:
                         if (ctrlGridView.Items.Count != 0)
                         {
-                            if (statusEnter == true && tipoTela == 0)
+                            ContaQtd();
+                            if (statusEnter == true && localSettings.ScreenType == Model.ScreenType.PRODUCTION)
                             {
                                 View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
                                 contaUCslc.NavItem(1);
@@ -291,7 +295,8 @@ namespace POSIDigitalPrinter
                     case VirtualKey.Number2:
                         if (ctrlGridView.Items.Count != 0)
                         {
-                            if (statusEnter == true && tipoTela == 0)
+                            ContaQtd();
+                            if (statusEnter == true && localSettings.ScreenType == Model.ScreenType.PRODUCTION)
                             {
                                 View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
                                 contaUCslc.NavItem(2);
@@ -307,15 +312,16 @@ namespace POSIDigitalPrinter
 
                     // --------- ENTER ----------
                     case VirtualKey.Number3:
+                        localSettings = settingsUtil.GetSettings();
                         if (ctrlGridView.Items.Count != 0 && ctrlGridView.SelectedIndex != -1)
                         {
-                            if (this.statusEnter == false && tipoTela == 0)
+                            if (this.statusEnter == false && localSettings.ScreenType == Model.ScreenType.PRODUCTION)
                             {
                                 this.statusEnter = true;
                             }
                             
 
-                            if (this.statusEnter == true && this.enterUpdate == true && this.tipoTela == 0)
+                            if (this.statusEnter == true && this.enterUpdate == true && localSettings.ScreenType == Model.ScreenType.PRODUCTION)
                             {
                                 if (ctrlGridView.SelectedIndex == navIndexConta)
                                 {
@@ -324,7 +330,6 @@ namespace POSIDigitalPrinter
 
                                     if (removeFromScreen)
                                     {
-
                                         this.ctrlGridView.Items.RemoveAt(ctrlGridView.SelectedIndex);
 
                                         if (this.navIndexConta == 0)
@@ -345,42 +350,12 @@ namespace POSIDigitalPrinter
                                 }
                             }
 
-                            if (this.statusEnter == true && this.enterUpdate == true && this.tipoTela == 1)
-                            {
-                                if (ctrlGridView.SelectedIndex == navIndexConta)
-                                {
-                                    View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
-                                    Boolean removeFromScreen = await contaUCslc.updateStatusItem();
-
-                                    if (removeFromScreen)
-                                    {
-
-                                        this.ctrlGridView.Items.RemoveAt(ctrlGridView.SelectedIndex);
-
-                                        if (this.navIndexConta == 0)
-                                        {
-                                            this.statusEnter = false;
-                                            this.enterUpdate = false;
-                                            this.NavConta();
-                                        }
-                                        else
-                                        {
-                                            this.statusEnter = false;
-                                            this.enterUpdate = false;
-                                            this.navIndexConta -= 1;
-                                            this.NavConta();
-                                        }
-
-                                    }
-                                }
-                            }
-
                             if (statusEnter == true && enterUpdate == false)
                             {
                                 this.enterUpdate = true;
                             }
 
-                            if (this.statusEnter == true && tipoTela == 0)
+                            if (this.statusEnter == true && localSettings.ScreenType == Model.ScreenType.PRODUCTION)
                             {
                                 View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
                                 contaUCslc.StatusEnter(statusEnter);
@@ -402,12 +377,15 @@ namespace POSIDigitalPrinter
                                 contaUCslc1.StatusEnter(statusEnter);
                                 contaUCslc1.NavItem(3);
                             }
+                            ctrlGridView.Focus(FocusState.Programmatic);
                         }
                         break;
 
                     // --------- CONFIG ----------
                     case VirtualKey.Number6:
                         this.configView = 1;
+                        this.LoadConfig();
+                        await MyContentDialog.ShowAsync();
                         this.NavConfig();
                         break;
                 }
@@ -430,7 +408,7 @@ namespace POSIDigitalPrinter
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            for (int i=0; i <= (ctrlGridView.Items.Count - 1); i++)
+            for (int i = 0; i <= (ctrlGridView.Items.Count - 1); i++)
             {
                 View.ContaUserControl contaUC = (View.ContaUserControl)ctrlGridView.Items[i];
                 if (ctrlGridView.Items.Count >= 1)
@@ -443,7 +421,7 @@ namespace POSIDigitalPrinter
 
         private void ContaQtd()
         {
-            if (statusViewMode == false)
+            if (localSettings.ViewMode == Model.ViewMode.GRID)
             {
                 qtdConta = (Convert.ToInt16(Window.Current.Bounds.Width)) / 440;
             }
@@ -479,18 +457,24 @@ namespace POSIDigitalPrinter
 
         // ----------------------------------- CONFIGURAÇÕES ---------------------------------------- //
 
+        private Model.ViewMode viewMode;
+
+        private Model.ScreenType screenType;
+
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             ToggleSwitch togglesw = sender as ToggleSwitch;
             if(togglesw != null)
             {
+                
+                var settings = new Model.Settings();
                 if (togglesw.IsOn == true)
                 {
-                    statusViewMode = true;
+                    viewMode = Model.ViewMode.LIST;
                 }
                 else
                 {
-                    statusViewMode = false;
+                    viewMode = Model.ViewMode.GRID;
                 }
             }
             ContaQtd();
@@ -510,39 +494,21 @@ namespace POSIDigitalPrinter
                         {
                             lvConfig.SelectedIndex = 0;
                         }
-                        if (lvConfig.SelectedIndex != -1)
+                        
+                        // ------------ config visualização conta ----------
+                        if (lvConfig.SelectedIndex == 0)
                         {
-                            // ------------ config visualização conta ----------
-                            if (lvConfig.SelectedIndex == 0)
-                            {
-                                if (tgViewMode.IsOn == false)
-                                    tgViewMode.IsOn = true;
-                                else
-                                    tgViewMode.IsOn = false;
-                            }
+                            if (tgViewMode.IsOn == false)
+                                tgViewMode.IsOn = true;
+                            else
+                                tgViewMode.IsOn = false;
                         }
 
                         // ------------ config tipo de tela ------------------
                         if (lvConfig.SelectedIndex == 1)
                         {
-                            
                             tpTela++;
-                            switch (tpTela)
-                            {
-                                case 0:
-                                    tbTpTela.Text = "Cozinha";
-                                    break;
-                                case 1:
-                                    tbTpTela.Text = "Conferência";
-                                    break;
-                                case 2:
-                                    tbTpTela.Text = "Entrega";
-                                    break;
-                                case 3:
-                                    tpTela = 0;
-                                    tbTpTela.Text = "Cozinha";
-                                    break;
-                            }
+                            TpTela();
                         }
 
                         // ------------ config API IP ------------------
@@ -567,19 +533,8 @@ namespace POSIDigitalPrinter
                             }
                         }
 
-                        // ------------ config Socket IP ------------------
-                        if (lvConfig.SelectedIndex == 4)
-                        {
-                            if (ipConfigS == false)
-                            {
-                                ipConfigS = true;
-                                ipIndexS = 1;
-                                ColorIpS();
-                            }
-                        }
-
                         // ------------ config Socket Port ------------------
-                        if (lvConfig.SelectedIndex == 5)
+                        if (lvConfig.SelectedIndex == 4)
                         {
                             if (prtConfigS == false)
                             {
@@ -590,50 +545,93 @@ namespace POSIDigitalPrinter
                         }
 
                         // ------------ Salvar ---------------
-                        if (lvConfig.SelectedIndex == 6)
+                        if (lvConfig.SelectedIndex == 5)
                         {
-                            for (int i = 0; i <= (ctrlGridView.Items.Count - 1); i++)
+
+                            localSettings = settingsUtil.GetSettings();
+
+                            var settings = new Model.Settings();
+                            settings.ApiIp = ipA1 + "." + ipA2 + "." + ipA3 + "." + ipA4;
+
+                            // ------------------------ OBTEM A PORTA DA API ---------------------------------
+                            settings.ApiPort = (prtA1 * 10000) + (prtA2 * 1000) + (prtA3 * 100) + (prtA4 * 10) + prtA5;
+
+                            if (prtA1 == 0)
+                                settings.ApiPort = (prtA2 * 1000) + (prtA3 * 100) + (prtA4 * 10) + prtA5;
+                            if (prtA1 == 0 && prtA2 == 0)
+                                settings.ApiPort = (prtA3 * 100) + (prtA4 * 10) + prtA5;
+                            if (prtA1 == 0 && prtA2 == 0 && prtA3 == 0)
+                                settings.ApiPort = (prtA4 * 10) + prtA5;
+                            if (prtA1 == 0 && prtA2 == 0 && prtA3 == 0 && prtA4 == 0)
+                                settings.ApiPort = prtA5;
+
+                            // ------------------------ OBTEM A PORTA DO SOCKET ---------------------------------
+                            settings.LocalSocketPort = (prtS1 * 10000) + (prtS2 * 1000) + (prtS3 * 100) + (prtS4 * 10) + prtS5;
+
+                            if (prtS1 == 0)
+                                settings.LocalSocketPort = (prtS2 * 1000) + (prtS3 * 100) + (prtS4 * 10) + prtS5;
+                            if (prtS1 == 0 && prtS2 == 0)
+                                settings.LocalSocketPort = (prtS3 * 100) + (prtS4 * 10) + prtS5;
+                            if (prtS1 == 0 && prtS2 == 0 && prtS3 == 0)
+                                settings.LocalSocketPort = (prtS4 * 10) + prtS5;
+                            if (prtS1 == 0 && prtS2 == 0 && prtS3 == 0 && prtS4 == 0)
+                                settings.LocalSocketPort = prtS5;
+
+                            settings.ViewMode = viewMode;
+
+                            TpTela();
+                            settings.ScreenType = screenType;
+
+                            settingsUtil.SaveSettings(settings);
+
+                            localSettings = settingsUtil.GetSettings();
+                            if (ctrlGridView.Items.Count >= 1)
                             {
-                                View.ContaUserControl contaUC = (View.ContaUserControl)ctrlGridView.Items[i];
-                                if (ctrlGridView.Items.Count >= 1)
+                                for (int i = 0; i <= (ctrlGridView.Items.Count - 1); i++)
                                 {
-                                    contaUC.ViewModeStatus(statusViewMode);
+                                    View.ContaUserControl contaUC = (View.ContaUserControl)ctrlGridView.Items[i];
+                                    if (ctrlGridView.Items.Count >= 1)
+                                    {
+                                        contaUC.ViewMode();
+                                    }
+                                }
+
+                                switch (localSettings.ScreenType)
+                                {
+                                    case Model.ScreenType.CONFERENCE:
+                                        this.statusEnter = false;
+                                        this.enterUpdate = false;
+                                        View.ContaUserControl contaUCslc1 = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
+                                        contaUCslc1.StatusEnter(statusEnter);
+                                        contaUCslc1.NavItem(3);
+                                        break;
+                                    case Model.ScreenType.DELIVERY:
+                                        this.statusEnter = false;
+                                        this.enterUpdate = false;
+                                        View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
+                                        contaUCslc.StatusEnter(statusEnter);
+                                        contaUCslc.NavItem(3); ;
+                                        break;
                                 }
                             }
-                            tipoTela = tpTela;
-
-                            switch (tipoTela)
-                            {
-                                case 1:
-                                    this.statusEnter = false;
-                                    this.enterUpdate = false;
-                                    View.ContaUserControl contaUCslc1 = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
-                                    contaUCslc1.StatusEnter(statusEnter);
-                                    contaUCslc1.NavItem(3);
-                                    break;
-                                case 2:
-                                    this.statusEnter = false;
-                                    this.enterUpdate = false;
-                                    View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
-                                    contaUCslc.StatusEnter(statusEnter);
-                                    contaUCslc.NavItem(3); ;
-                                    break;
-                            }
-
                             configView = 0;
                             MyContentDialog.Hide();
                             navIndexConfig = 0;
+
+                            if (localSettings != null && localSettings.LocalSocketPort > 0)
+                            {
+                                this.StartSocketServer();
+                            }
                         }
                         break;
 
                     // --------- CONFIG/VOLTA ----------
                     case VirtualKey.Number6:
 
-                        if(ipConfigA == false && ipConfigS == false && prtConfigA == false && prtConfigS == false)
+                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false)
                         {
                             configView = 0;
                             tgViewMode.IsOn = false;
-                            TpTelaPadrão();
 
                             MyContentDialog.Hide();
                             navIndexConfig = 0;
@@ -642,7 +640,7 @@ namespace POSIDigitalPrinter
 
                     // --------- DOWN ----------
                     case VirtualKey.Number0:
-                        if(ipConfigA == false && ipConfigS == false && prtConfigA == false && prtConfigS == false)
+                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false)
                         {
                             navIndexConfig++;
                             NavLimitConfig();
@@ -652,7 +650,7 @@ namespace POSIDigitalPrinter
 
                     // --------- UP ----------
                     case VirtualKey.Number2:
-                        if(ipConfigA == false && ipConfigS == false && prtConfigA == false && prtConfigS == false)
+                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false)
                         {
                             navIndexConfig--;
                             NavLimitConfig();
@@ -662,12 +660,11 @@ namespace POSIDigitalPrinter
 
                     // --------- VOLTA ----------
                     case VirtualKey.Number1:
-                        if (ipConfigA == false && ipConfigS == false && prtConfigA == false && prtConfigS == false)
+                        if (ipConfigA == false && prtConfigA == false && prtConfigS == false)
                         {
                             if(configView == 1 && ipConfigA == false)
                             configView = 0;
                             tgViewMode.IsOn = false;
-                            TpTelaPadrão();
 
                             MyContentDialog.Hide();
                             navIndexConfig = 0;
@@ -678,21 +675,17 @@ namespace POSIDigitalPrinter
                             ipIndexA = 0;
                             ColorIpA();
 
-                            ipConfigS = false;
-                            ipIndexS = 0;
-                            ColorIpS();
-
                             prtConfigA = false;
                             prtIndexA = 0;
-                            ColorIpA();
+                            ColorPrtA();
 
                             prtConfigS = false;
                             prtIndexS = 0;
-                            ColorIpS();
+                            ColorPrtS();
                         }
                         break;
                     case VirtualKey.Escape:
-                        if (ipConfigA == false && ipConfigS == false && prtConfigA == false && prtConfigS == false)
+                        if (ipConfigA == false && prtConfigA == false && prtConfigS == false)
                         {
                             if (configView == 1 && ipConfigA == false)
                                 configView = 0;
@@ -706,42 +699,145 @@ namespace POSIDigitalPrinter
                             ipIndexA = 0;
                             ColorIpA();
 
-                            ipConfigS = false;
-                            ipIndexS = 0;
-                            ColorIpS();
-
                             prtConfigA = false;
                             prtIndexA = 0;
-                            ColorIpA();
+                            ColorPrtA();
 
                             prtConfigS = false;
                             prtIndexS = 0;
-                            ColorIpS();
+                            ColorPrtS();
                         }
                         break;
                 }
             }
         }
 
-        private void TpTelaPadrão()
+        private void LoadConfig()
         {
-            switch (tipoTela)
+            localSettings = settingsUtil.GetSettings();
+            // ------------ LOAD VIEWMODE -----------
+            if (localSettings.ViewMode == Model.ViewMode.GRID)
+                tgViewMode.IsOn = false;
+            else
+                tgViewMode.IsOn = true;
+
+            //------------ LOAD SCREEN TYPE ------------
+            switch (localSettings.ScreenType)
+            {
+                case Model.ScreenType.PRODUCTION:
+                    tpTela = 0;
+                    tbTpTela.Text = "Produção";
+                    break;
+                case Model.ScreenType.CONFERENCE:
+                    tpTela = 1;
+                    tbTpTela.Text = "Conferência";
+                    break;
+                case Model.ScreenType.DELIVERY:
+                    tpTela = 2;
+                    tbTpTela.Text = "Delivery";
+                    break;
+            }
+
+            //---------- LOAD API IP ---------------
+
+            int indexPonto = localSettings.ApiIp.IndexOf(".");
+            int indexPonto2 = localSettings.ApiIp.IndexOf(".", (indexPonto + 1));
+            int indexPonto3 = localSettings.ApiIp.IndexOf(".", (indexPonto2 + 1));
+
+            this.ipA1 = Convert.ToInt16(localSettings.ApiIp.Substring(0, indexPonto));
+            this.ipA2 = Convert.ToInt16(localSettings.ApiIp.Substring((indexPonto + 1) , (indexPonto2 - indexPonto - 1)));
+            this.ipA3 = Convert.ToInt16(localSettings.ApiIp.Substring(indexPonto2 + 1, (indexPonto3 - indexPonto2 - 1)));
+            this.ipA4 = Convert.ToInt16(localSettings.ApiIp.Substring(indexPonto3 + 1, localSettings.ApiIp.Length - indexPonto3 - 1));
+
+            //--------- LOAD API PORT -------------
+            string portA = localSettings.ApiPort.ToString();
+            switch (portA.Length)
+            {
+                case 1:
+                    this.prtA5 = Convert.ToInt32(portA.Substring(0, 1));
+                    break;
+                case 2:
+                    this.prtA5 = Convert.ToInt16(portA.Substring(1, 1));
+                    this.prtA4 = Convert.ToInt16(portA.Substring(0, 1));
+                    break;
+                case 3:
+                    this.prtA5 = Convert.ToInt16(portA.Substring(2, 1));
+                    this.prtA4 = Convert.ToInt16(portA.Substring(1, 1));
+                    this.prtA3 = Convert.ToInt16(portA.Substring(0, 1));
+                    break;
+                case 4:
+                    this.prtA5 = Convert.ToInt16(portA.Substring(3, 1));
+                    this.prtA4 = Convert.ToInt16(portA.Substring(2, 1));
+                    this.prtA3 = Convert.ToInt16(portA.Substring(1, 1));
+                    this.prtA2 = Convert.ToInt16(portA.Substring(0, 1));
+                    break;
+                case 5:
+                    this.prtA5 = Convert.ToInt16(portA.Substring(4, 1));
+                    this.prtA4 = Convert.ToInt16(portA.Substring(3, 1));
+                    this.prtA3 = Convert.ToInt16(portA.Substring(2, 1));
+                    this.prtA2 = Convert.ToInt16(portA.Substring(1, 1));
+                    this.prtA1 = Convert.ToInt16(portA.Substring(0, 1));
+                    break;
+            }
+
+            //--------- LOAD SOCKET PORT -------------
+            string portS = localSettings.LocalSocketPort.ToString();
+            switch (portS.Length)
+            {
+                case 1:
+                    this.prtS5 = Convert.ToInt32(portS.Substring(0, 1));
+                    break;
+                case 2:
+                    this.prtS5 = Convert.ToInt16(portS.Substring(1, 1));
+                    this.prtS4 = Convert.ToInt16(portS.Substring(0, 1));
+                    break;
+                case 3:
+                    this.prtS5 = Convert.ToInt16(portS.Substring(2, 1));
+                    this.prtS4 = Convert.ToInt16(portS.Substring(1, 1));
+                    this.prtS3 = Convert.ToInt16(portS.Substring(0, 1));
+                    break;
+                case 4:
+                    this.prtS5 = Convert.ToInt16(portS.Substring(3, 1));
+                    this.prtS4 = Convert.ToInt16(portS.Substring(2, 1));
+                    this.prtS3 = Convert.ToInt16(portS.Substring(1, 1));
+                    this.prtS2 = Convert.ToInt16(portS.Substring(0, 1));
+                    break;
+                case 5:
+                    this.prtS5 = Convert.ToInt16(portS.Substring(4, 1));
+                    this.prtS4 = Convert.ToInt16(portS.Substring(3, 1));
+                    this.prtS3 = Convert.ToInt16(portS.Substring(2, 1));
+                    this.prtS2 = Convert.ToInt16(portS.Substring(1, 1));
+                    this.prtS1 = Convert.ToInt16(portS.Substring(0, 1));
+                    break;
+            }
+
+            //
+
+            AtualizarIps();
+        }
+
+        private void TpTela()
+        {
+            switch (tpTela)
             {
                 case 0:
-                    tbTpTela.Text = "Cozinha";
+                    tbTpTela.Text = "Produção";
+                    screenType = Model.ScreenType.PRODUCTION;
                     break;
                 case 1:
                     tbTpTela.Text = "Conferência";
+                    screenType = Model.ScreenType.CONFERENCE;
                     break;
                 case 2:
-                    tbTpTela.Text = "Entrega";
+                    tbTpTela.Text = "Delivery";
+                    screenType = Model.ScreenType.DELIVERY;
                     break;
                 case 3:
-                    tipoTela = 0;
-                    tbTpTela.Text = "Cozinha";
+                    tpTela = 0;
+                    tbTpTela.Text = "Produção";
+                    screenType = Model.ScreenType.PRODUCTION;
                     break;
             }
-            tpTela = tipoTela;
         }
         private void NavConfig()
         {
@@ -805,21 +901,21 @@ namespace POSIDigitalPrinter
         {
             if ((ipA2 + 2) > 1000)
                 ipA2 = 0;
-            else if (ipA2 - 1 < 0)
+            else if (ipA2 - 1 < -1)
                 ipA2 = 999;
         }
         private void ipA3Limit()
         {
             if ((ipA3 + 2) > 1000)
                 ipA3 = 0;
-            else if (ipA3 - 1 < 0)
+            else if (ipA3 - 1 < -1)
                 ipA3 = 999;
         }
         private void ipA4Limit()
         {
             if ((ipA4 + 2) > 1000)
                 ipA4 = 0;
-            else if (ipA4 - 1 < 0)
+            else if (ipA4 - 1 < -1)
                 ipA4 = 999;
         }
 
@@ -847,99 +943,7 @@ namespace POSIDigitalPrinter
             }
         }
 
-        // --------------- CONFIG SOCKET IP  -------------------
-        private void IpSPicker(int ipIndexS)
-        {
-            switch (ipIndexS)
-            {
-                case 1:
-                    ipS1++;
-                    ipS1Limit();
-                    break;
-                case 2:
-                    ipS2++;
-                    ipS2Limit();
-                    break;
-                case 3:
-                    ipS3++;
-                    ipS3Limit();
-                    break;
-                case 4:
-                    ipS4++;
-                    ipS4Limit();
-                    break;
-                case -1:
-                    ipS1--;
-                    ipS1Limit();
-                    break;
-                case -2:
-                    ipS2--;
-                    ipS2Limit();
-                    break;
-                case -3:
-                    ipS3--;
-                    ipS3Limit();
-                    break;
-                case -4:
-                    ipS4--;
-                    ipS4Limit();
-                    break;
-            }
-        }
-        private void ipS1Limit()
-        {
-            if ((ipS1 + 2) > 1000)
-                ipS1 = 0;
-            else if (ipS1 - 1 < 0)
-                ipS1 = 999;
-        }
-        private void ipS2Limit()
-        {
-            if ((ipS2 + 2) > 1000)
-                ipS2 = 0;
-            else if (ipS2 - 1 < 0)
-                ipS2 = 999;
-        }
-        private void ipS3Limit()
-        {
-            if ((ipS3 + 2) > 1000)
-                ipS3 = 0;
-            else if (ipS3 - 1 < 0)
-                ipS3 = 999;
-        }
-        private void ipS4Limit()
-        {
-            if ((ipS4 + 2) > 1000)
-                ipS4 = 0;
-            else if (ipS4 - 1 < 0)
-                ipS4 = 999;
-        }
-
-        private void ColorIpS()
-        {
-            tbipS1.Foreground = new SolidColorBrush(Colors.Black);
-            tbipS2.Foreground = new SolidColorBrush(Colors.Black);
-            tbipS3.Foreground = new SolidColorBrush(Colors.Black);
-            tbipS4.Foreground = new SolidColorBrush(Colors.Black);
-
-            switch (ipIndexS)
-            {
-                case 1:
-                    tbipS1.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                    break;
-                case 2:
-                    tbipS2.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                    break;
-                case 3:
-                    tbipS3.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                    break;
-                case 4:
-                    tbipS4.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                    break;
-            }
-        }
-
-        // ------------ CONFIG PORT API -------------
+        // ------------ CONFIG API PORT -------------
         private void PortPickerApi(int prtIndexA)
         {
             switch (prtIndexA)
@@ -990,35 +994,35 @@ namespace POSIDigitalPrinter
         {
             if ((prtA1) > 9)
                 prtA1 = 0;
-            else if (prtA1 - 1 < 0)
+            else if (prtA1 - 1 < -1)
                 prtA1 = 9;
         }
         private void prtLimitA2()
         {
             if ((prtA2) > 9)
                 prtA2 = 0;
-            else if (prtA2 - 1 < 0)
+            else if (prtA2 - 1 < -1)
                 prtA2 = 9;
         }
         private void prtLimitA3()
         {
             if ((prtA3) > 9)
                 prtA3 = 0;
-            else if (prtA3 - 1 < 0)
+            else if (prtA3 - 1 < -1)
                 prtA3 = 9;
         }
         private void prtLimitA4()
         {
             if ((prtA4) > 9)
                 prtA4 = 0;
-            else if (prtA4 - 1 < 0)
+            else if (prtA4 - 1 < -1)
                 prtA4 = 9;
         }
         private void prtLimitA5()
         {
             if ((prtA5) > 9)
                 prtA5 = 0;
-            else if (prtA5 - 1 < 0)
+            else if (prtA5 - 1 < -1)
                 prtA5 = 9;
         }
 
@@ -1050,7 +1054,7 @@ namespace POSIDigitalPrinter
             }
         }
 
-        // ------------ CONFIG PORT API -------------
+        // ------------ CONFIG SOCKET PORT -------------
         private void PortPickerSOC(int prtIndexS)
         {
             switch (prtIndexS)
@@ -1101,35 +1105,35 @@ namespace POSIDigitalPrinter
         {
             if ((prtS1) > 9)
                 prtS1 = 0;
-            else if (prtS1 - 1 < 0)
+            else if (prtS1 - 1 < -1)
                 prtS1 = 9;
         }
         private void prtLimitS2()
         {
             if ((prtS2) > 9)
                 prtS2 = 0;
-            else if (prtS2 - 1 < 0)
+            else if (prtS2 - 1 < -1)
                 prtS2 = 9;
         }
         private void prtLimitS3()
         {
             if ((prtS3) > 9)
                 prtS3 = 0;
-            else if (prtS3 - 1 < 0)
+            else if (prtS3 - 1 < -1)
                 prtS3 = 9;
         }
         private void prtLimitS4()
         {
             if ((prtS4) > 9)
                 prtS4 = 0;
-            else if (prtS4 - 1 < 0)
+            else if (prtS4 - 1 < -1)
                 prtS4 = 9;
         }
         private void prtLimitS5()
         {
             if ((prtS5) > 9)
                 prtS5 = 0;
-            else if (prtS5 - 1 < 0)
+            else if (prtS5 - 1 < -1)
                 prtS5 = 9;
         }
 
@@ -1217,29 +1221,6 @@ namespace POSIDigitalPrinter
                         }
                     }
 
-                    if (ipConfigS == true)
-                    {
-                        switch (ipIndexS)
-                        {
-                            case 1:
-                                IpSPicker(-1);
-                                break;
-                            case 2:
-                                IpSPicker(-2);
-                                break;
-                            case 3:
-                                IpSPicker(-3);
-                                break;
-                            case 4:
-                                IpSPicker(-4);
-                                break;
-                            case 5:
-                                ipConfigS = false;
-                                ipIndexS = 0;
-                                break;
-                        }
-                    }
-
                     if (prtConfigS == true)
                     {
                         switch (prtIndexS)
@@ -1318,29 +1299,6 @@ namespace POSIDigitalPrinter
                         }
                     }
 
-                    if (ipConfigS == true)
-                    {
-                        switch (ipIndexS)
-                        {
-                            case 1:
-                                IpSPicker(1);
-                                break;
-                            case 2:
-                                IpSPicker(2);
-                                break;
-                            case 3:
-                                IpSPicker(3);
-                                break;
-                            case 4:
-                                IpSPicker(4);
-                                break;
-                            case 5:
-                                ipConfigS = false;
-                                ipIndexS = 0;
-                                break;
-                        }
-                    }
-
                     if (prtConfigS == true)
                     {
                         switch (prtIndexS)
@@ -1388,15 +1346,6 @@ namespace POSIDigitalPrinter
                         prtIndexA++;
                     }
 
-                    if (ipIndexS >= 5)
-                    {
-                        ipConfigS = false;
-                    }
-                    if (ipConfigS == true)
-                    {
-                        ipIndexS++;
-                    }
-
                     if (prtIndexS >= 6)
                     {
                         prtConfigS = false;
@@ -1408,12 +1357,11 @@ namespace POSIDigitalPrinter
                     break;
 
                 case VirtualKey.Escape:
-                    if (ipConfigA == false && ipConfigS == false && prtConfigA == false && prtConfigS == false)
+                    if (ipConfigA == false && prtConfigA == false && prtConfigS == false)
                     {
                         if (configView == 1 && ipConfigA == false)
                             configView = 0;
                         tgViewMode.IsOn = false;
-                        TpTelaPadrão();
 
                         MyContentDialog.Hide();
                         navIndexConfig = 0;
@@ -1424,17 +1372,13 @@ namespace POSIDigitalPrinter
                         ipIndexA = 0;
                         ColorIpA();
 
-                        ipConfigS = false;
-                        ipIndexS = 0;
-                        ColorIpS();
-
                         prtConfigA = false;
                         prtIndexA = 0;
-                        ColorIpA();
+                        ColorPrtA();
 
                         prtConfigS = false;
                         prtIndexS = 0;
-                        ColorIpS();
+                        ColorPrtS();
                     }
                     break;
             }
@@ -1456,12 +1400,6 @@ namespace POSIDigitalPrinter
             tbPortAPI3.Text = prtA3.ToString();
             tbPortAPI4.Text = prtA4.ToString();
             tbPortAPI5.Text = prtA5.ToString();
-
-            ColorIpS();
-            tbipS1.Text = ipS1.ToString();
-            tbipS2.Text = ipS2.ToString();
-            tbipS3.Text = ipS3.ToString();
-            tbipS4.Text = ipS4.ToString();
 
             ColorPrtS();
             tbPortSOC1.Text = prtS1.ToString();

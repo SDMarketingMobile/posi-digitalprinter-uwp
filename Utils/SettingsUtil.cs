@@ -43,6 +43,7 @@ namespace POSIDigitalPrinter.Utils
             SettingsContainer.Values["screen.type"] = (int) settings.ScreenType;
             SettingsContainer.Values["api.ip"]      = settings.ApiIp;
             SettingsContainer.Values["api.port"]    = settings.ApiPort;
+            SettingsContainer.Values["socket.port"] = settings.LocalSocketPort;
         }
 
         public Model.Settings GetSettings()
@@ -67,6 +68,11 @@ namespace POSIDigitalPrinter.Utils
             if (SettingsContainer.Values.ContainsKey("api.port"))
             {
                 settings.ApiPort = (int)SettingsContainer.Values["api.port"];
+            }
+
+            if (SettingsContainer.Values.ContainsKey("socket.port"))
+            {
+                settings.LocalSocketPort = (int)SettingsContainer.Values["socket.port"];
             }
 
             return settings;

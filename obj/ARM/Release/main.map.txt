@@ -1,0 +1,17 @@
+[ResourceMetadata]
+"ResourceDimensions"		"language-en-us"
+"ResourceDimensions"		"scale-200"
+"ResourceDimensions"		"language-pt-BR"
+
+[Files]
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\split.pri"			"resources.pri"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\POSIDigitalPrinter.exe"			"POSIDigitalPrinter.exe"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\POSIDigitalPrinter.dll"			"POSIDigitalPrinter.dll"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\clrcompression.dll"			"clrcompression.dll"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\Assets\Wide310x150Logo.scale-200.png"			"Assets\Wide310x150Logo.scale-200.png"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\Assets\StoreLogo.png"			"Assets\StoreLogo.png"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\Assets\Square44x44Logo.targetsize-24_altform-unplated.png"			"Assets\Square44x44Logo.targetsize-24_altform-unplated.png"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\Assets\Square44x44Logo.scale-200.png"			"Assets\Square44x44Logo.scale-200.png"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\Assets\Square150x150Logo.scale-200.png"			"Assets\Square150x150Logo.scale-200.png"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\Assets\SplashScreen.scale-200.png"			"Assets\SplashScreen.scale-200.png"
+"C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\ARM\Release\PackageLayout\Assets\LockScreenLogo.scale-200.png"			"Assets\LockScreenLogo.scale-200.png"

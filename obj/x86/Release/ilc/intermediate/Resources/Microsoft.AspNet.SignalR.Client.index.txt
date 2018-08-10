@@ -1,0 +1,3 @@
+Microsoft.AspNet.SignalR.Client, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+  Microsoft.AspNet.SignalR.Client.Resources.resources
+  Microsoft.AspNet.SignalR.Client.Store.Resources.resources

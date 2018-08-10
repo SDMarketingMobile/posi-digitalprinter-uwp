@@ -18,6 +18,12 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>POSIDigitalPrinter_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -98,7 +104,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\ScreenSetting.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Utils\SettingsUtil.cs" />
     <Compile Include="Utils\SocketServer.cs" />
@@ -162,8 +167,8 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\POSIDigitalPrinterAPIUtil\POSIDigitalPrinterAPIUtil.csproj">
-      <Project>{172cb379-e1db-4c6f-9c65-61c4015c18e5}</Project>
+    <ProjectReference Include="..\posi-digitalprinter-dll\POSIDigitalPrinterAPIUtil.csproj">
+      <Project>{632a32aa-10f1-4237-80e3-1073a886a333}</Project>
       <Name>POSIDigitalPrinterAPIUtil</Name>
     </ProjectReference>
   </ItemGroup>

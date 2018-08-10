@@ -8498,8 +8498,8 @@
     },
     "POSIDigitalPrinterAPIUtil/1.0.0": {
       "type": "project",
-      "path": "../POSIDigitalPrinterAPIUtil/POSIDigitalPrinterAPIUtil.csproj",
-      "msbuildProject": "../POSIDigitalPrinterAPIUtil/POSIDigitalPrinterAPIUtil.csproj"
+      "path": "../posi-digitalprinter-dll/POSIDigitalPrinterAPIUtil.csproj",
+      "msbuildProject": "../posi-digitalprinter-dll/POSIDigitalPrinterAPIUtil.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -8516,11 +8516,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\POSIDigitalPrinter\\POSIDigitalPrinter.csproj",
+      "projectUniqueName": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-uwp\\POSIDigitalPrinter.csproj",
       "projectName": "POSIDigitalPrinter",
-      "projectPath": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\POSIDigitalPrinter\\POSIDigitalPrinter.csproj",
+      "projectPath": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-uwp\\POSIDigitalPrinter.csproj",
       "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\POSIDigitalPrinter\\obj\\",
+      "outputPath": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-uwp\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -8540,8 +8540,8 @@
       "frameworks": {
         "uap10.0.16299": {
           "projectReferences": {
-            "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\POSIDigitalPrinterAPIUtil\\POSIDigitalPrinterAPIUtil.csproj": {
-              "projectPath": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\POSIDigitalPrinterAPIUtil\\POSIDigitalPrinterAPIUtil.csproj"
+            "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-dll\\POSIDigitalPrinterAPIUtil.csproj": {
+              "projectPath": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-dll\\POSIDigitalPrinterAPIUtil.csproj"
             }
           }
         }

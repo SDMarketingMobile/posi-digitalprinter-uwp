@@ -36,8 +36,8 @@
             Padding="1,0,1,0"
             Margin="3,45,3,3"
             SelectionChanged="ctrlListView_SelectionChanged"
-            TabIndex="2"
-            SelectionMode="None">
+            SelectionMode="Single"
+            IsItemClickEnabled="False">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="BorderThickness" Value="0"/>

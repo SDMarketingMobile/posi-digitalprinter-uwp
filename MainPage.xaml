@@ -92,7 +92,7 @@
                         Grid.Row="2"
                         Visibility="Visible">
 
-            <Grid Width="370" Height="310" >
+            <Grid Width="370" Height="265" >
 
                 <ListView 
                     x:Name="lvConfig"
@@ -105,7 +105,7 @@
                             <Setter Property="Padding" Value="0,0,0,0"/>
                         </Style>
                     </ListView.ItemContainerStyle>
-                    
+
                     <!--     EXIBIR CONTAS EM LISTA      -->
                     <ListViewItem>
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
@@ -142,7 +142,7 @@
                             <TextBlock
                                 x:Name="tbTpTela"
                                 FontSize="19"
-                                Text="Cozinha"
+                                Text="Produção"
                                 Margin="0,10,0,0" 
                                 HorizontalAlignment="Right" 
                                 VerticalAlignment="Center" 
@@ -161,14 +161,15 @@
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
                                 Margin="0,10,0,0"/>
-                            
-                            <Grid Margin="120,0,0,0">
+
+                            <Grid Margin="114,0,0,0">
                                 <TextBlock x:Name="tbipA1"
-                                Text="192" 
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
+                                Width="32"
                                 Margin="104,10,0,0"/>
 
                                 <TextBlock
@@ -179,11 +180,12 @@
                                 Margin="138,10,0,0"/>
 
                                 <TextBlock x:Name="tbipA2"
-                                Text="168" 
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
+                                Width="32"
                                 Margin="142,10,0,0"/>
 
                                 <TextBlock
@@ -194,7 +196,7 @@
                                 Margin="175,10,0,0"/>
 
                                 <TextBlock x:Name="tbipA3"
-                                Text="10" 
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
@@ -210,11 +212,12 @@
                                 Margin="212,10,0,0"/>
 
                                 <TextBlock x:Name="tbipA4"
-                                Text="10" 
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
+                                Width="32"
                                 Margin="217,10,0,0"/>
                             </Grid>
                         </Grid>
@@ -270,74 +273,6 @@
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
                                 Margin="52,10,0,0"/>
-                            </Grid>
-                        </Grid>
-                    </ListViewItem>
-
-                    <!--     SOCKET IP      -->
-                    <ListViewItem>
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                            <TextBlock 
-                                Text="Socket IP :" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Margin="0,10,0,0"/>
-                            <Grid Margin="120,0,0,0">
-
-                                <TextBlock x:Name="tbipS1"
-                                Text="192" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                TextAlignment="Center"
-                                Margin="104,10,0,0"/>
-
-                                <TextBlock
-                                Text="." 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Margin="138,10,0,0"/>
-
-                                <TextBlock x:Name="tbipS2"
-                                Text="168" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                TextAlignment="Center"
-                                Margin="142,10,0,0"/>
-
-                                <TextBlock
-                                Text="." 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                Margin="175,10,0,0"/>
-
-                                <TextBlock x:Name="tbipS3"
-                                Text="10" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                TextAlignment="Center"
-                                Width="32"
-                                Margin="180,10,0,0"/>
-
-                                <TextBlock
-                                Text="." 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Margin="212,10,0,0"/>
-
-                                <TextBlock x:Name="tbipS4"
-                                Text="10" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                TextAlignment="Center"
-                                Margin="217,10,0,0"/>
                             </Grid>
                         </Grid>
                     </ListViewItem>
@@ -407,11 +342,7 @@
 
                 </ListView>
             </Grid>
-            
-            
-
         </ContentDialog>
-        <RelativePanel HorizontalAlignment="Left" Height="100" Margin="648,436,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 

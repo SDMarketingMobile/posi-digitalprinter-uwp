@@ -56,14 +56,6 @@
             HorizontalAlignment="Right" 
             VerticalAlignment="Top" />
 
-        <StackPanel 
-            x:Name="stpAdicional" 
-            Margin="25,29,0,23"
-            Background="Transparent" 
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Left"
-            Orientation="Vertical"/>
-
         <TextBlock 
             x:Name="tbCombinado" 
             Text="(#Combinado)" 
@@ -73,6 +65,13 @@
             VerticalAlignment="Bottom" 
             Height="24"
             Visibility="Collapsed"/>
+
+        <StackPanel
+            x:Name="stpAdicional"
+            Margin="25,29,0,23"
+            Background="Transparent"
+            HorizontalAlignment="Left"
+            Orientation="Vertical"/>
 
     </Grid>
 </UserControl>

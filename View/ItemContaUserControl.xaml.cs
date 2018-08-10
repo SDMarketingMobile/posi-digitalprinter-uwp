@@ -34,19 +34,20 @@ namespace POSIDigitalPrinter.View
         int segLimit = 0;
         int seg = 0;
         int min = 0;
-        bool statusViewMode = false;
         private DispatcherTimer Timer;
 
         public int id { get; set; }
 
         Account contaData;
         AccountItem itemData;
-        Model.ScreenSetting screenData;
 
         Model.Settings settings = Utils.SettingsUtil.Instance.GetSettings();
         AccountItemController accountItemController;
 
-        public ItemContaUserControl(AccountItem itemData, Account contaData, Model.ScreenSetting screenData)
+        Utils.SettingsUtil settingsUtil = Utils.SettingsUtil.Instance;
+        Model.Settings localSettings;
+
+        public ItemContaUserControl(AccountItem itemData, Account contaData)
         {
             this.InitializeComponent();
 
@@ -55,7 +56,6 @@ namespace POSIDigitalPrinter.View
             this.itemData = itemData;
             this.id = itemData.Id;
             this.contaData = contaData;
-            this.screenData = screenData;
             this.initialize();
         }
 
@@ -73,11 +73,13 @@ namespace POSIDigitalPrinter.View
                 {
                     AccountItemAditional adicionalData = this.itemData.Aditionals[i];
 
-                    TextBlock tbAdicional = new TextBlock();
-                    tbAdicional.Width = 284;
-                    tbAdicional.Text = "- " + adicionalData.Name;
-                    tbAdicional.FontSize = 18;
-                    tbAdicional.Padding = new Thickness(0);
+                    TextBlock tbAdicional = new TextBlock
+                    {
+                        Width = 284,
+                        Text = "- " + adicionalData.Name,
+                        FontSize = 18,
+                        Padding = new Thickness(0)
+                    };
                     this.stpAdicional.Children.Add(tbAdicional);
                 }
             }
@@ -88,16 +90,24 @@ namespace POSIDigitalPrinter.View
                 this.combinado++;
                 this.tbCombinado.Visibility = Visibility.Visible;
             }
+            else
+            {
+                stpAdicional.Margin = new Thickness(25, 29, 304, 3);
+            }
 
             if (itemData.Aditionals != null)
                 qtdAdicional = itemData.Aditionals.Count;
+            if (qtdAdicional <= 0)
+            {
+                stpAdicional.Visibility = Visibility.Collapsed;
+            }
             if (qtdAdicional == 1)
             {
-                widthAdicional = qtdAdicional * 35;
+                widthAdicional = qtdAdicional * 27;
             }
             else
             {
-                widthAdicional = qtdAdicional * 27;
+                widthAdicional = qtdAdicional * 24;
             }
             ViewMode();
 
@@ -116,27 +126,20 @@ namespace POSIDigitalPrinter.View
             timerScreen();
         }
 
-        public void ViewModeStatus(bool vMode)
-        {
-            statusViewMode = vMode;
-
-            ViewMode();
-        }
-
         public void ViewMode()
         {
-            statusViewMode = screenData.ViewMode;
+            localSettings = settingsUtil.GetSettings(); ;
 
-            if (statusViewMode == true)
+            if (localSettings.ViewMode == Model.ViewMode.LIST)
             {
-                this.Width = Window.Current.Bounds.Width - 45;
-                this.Height = 60 + (qtdAdicional * 22);
+                this.Width = Window.Current.Bounds.Width - 40;
+                this.Height = 80 + (qtdAdicional * 20);
                 this.Margin = new Thickness(1);
             }
             else
             {
                 this.Width = 429;
-                this.Height = 38 + widthAdicional + (combinado * 13);
+                this.Height = 38 + widthAdicional + (combinado * 11);
                 this.Margin = new Thickness(1);
             }
         }
@@ -219,7 +222,7 @@ namespace POSIDigitalPrinter.View
             {
                 elipStatusItem.Fill = new SolidColorBrush(Colors.White);
             }
-            else if (this.itemData.StatusCode == 1)
+            else if (this.itemData.StatusCode == 1) // quando inicia a producao do item...
             {
                 var result = await accountItemController.reportBeginPreparation(this.contaData, this.itemData);
                 if (result.StatusCode.Equals(HttpStatusCode.OK))
@@ -232,7 +235,7 @@ namespace POSIDigitalPrinter.View
                     this.itemData.StatusCode--;
                 }
             }
-            else if (this.itemData.StatusCode == 2)
+            else if (this.itemData.StatusCode == 2) // quando finaliza a producao do item...
             {
                 var result = await accountItemController.reportEndPreparation(this.contaData, this.itemData);
                 if (result.StatusCode.Equals(HttpStatusCode.OK))
@@ -256,8 +259,9 @@ namespace POSIDigitalPrinter.View
             tbCombinado.Foreground = new SolidColorBrush(Colors.White);
             tbExecutingTime.Foreground = new SolidColorBrush(Colors.White);
             tbPrepareTime.Foreground = new SolidColorBrush(Colors.White);
+            
+            
         }
-
     }
 
 }

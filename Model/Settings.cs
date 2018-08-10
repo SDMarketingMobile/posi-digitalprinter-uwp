@@ -25,5 +25,6 @@ namespace POSIDigitalPrinter.Model
         public ScreenType ScreenType { get; set; }
         public String ApiIp { get; set; }
         public int ApiPort { get; set; }
+        public int LocalSocketPort { get; set; }
     }
 }

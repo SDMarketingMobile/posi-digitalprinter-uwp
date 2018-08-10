@@ -25,23 +25,24 @@ namespace POSIDigitalPrinter.View
 {
     public sealed partial class ContaUserControl : UserControl
     {
+        Utils.SettingsUtil settingsUtil = Utils.SettingsUtil.Instance;
+        Model.Settings localSettings;
+
         Account contaData;
-        Model.ScreenSetting screenData;
         int navIndexItem = 0;
         int timerInicial = -1;
         int timerMinimo = 0;
         int timerMaximo = 0;
         int seg = 0;
         int min = 0;
-        bool statusViewMode = false;
         bool statusEnter = false;
         private DispatcherTimer Timer;
 
-        public ContaUserControl(Account contaData, Model.ScreenSetting screenData)
+        public ContaUserControl(Account contaData)
         {
             this.InitializeComponent();
             this.contaData = contaData;
-            this.screenData = screenData;
+            this.localSettings = settingsUtil.GetSettings();
             this.Initialize();
         }
 
@@ -57,29 +58,11 @@ namespace POSIDigitalPrinter.View
             timerScreen();
         }
 
-        public void ViewModeStatus(bool vMode)
-        {
-            statusViewMode = vMode;
-
-            for (int i = 0; i <= (ctrlListView.Items.Count - 1); i++)
-            {
-                ItemContaUserControl itemUC = (ItemContaUserControl)ctrlListView.Items[i];
-                if (ctrlListView.Items.Count >= 1)
-                {
-                    itemUC.ViewModeStatus(statusViewMode);
-
-                    screenData.ViewMode = statusViewMode;
-                }
-            }
-
-            ViewMode();
-        }
-
         public void ViewMode()
         {
-            statusViewMode = screenData.ViewMode;
+            localSettings = settingsUtil.GetSettings();
 
-            if (statusViewMode == true)
+            if (localSettings.ViewMode == Model.ViewMode.LIST)
             {
                 this.Width = Window.Current.Bounds.Width - 30;
                 this.Height = 315;
@@ -98,6 +81,15 @@ namespace POSIDigitalPrinter.View
                 this.Width = 440;
                 this.Height = 315;
                 this.Margin = new Thickness(2);
+            }
+
+            for (int i = 0; i <= (ctrlListView.Items.Count - 1); i++)
+            {
+                ItemContaUserControl itemUC = (ItemContaUserControl)ctrlListView.Items[i];
+                if (ctrlListView.Items.Count >= 1)
+                {
+                    itemUC.ViewMode();
+                }
             }
         }
 
@@ -156,7 +148,7 @@ namespace POSIDigitalPrinter.View
                 visebleTimer = timerMaximo - itemContaData.PrepareTime * itemContaData.Quantity;
                 if (visebleTimer == timerInicial)
                 {
-                    ItemContaUserControl itemContaUC = new ItemContaUserControl(itemContaData, contaData, screenData);
+                    ItemContaUserControl itemContaUC = new ItemContaUserControl(itemContaData, contaData);
                     this.ctrlListView.Items.Add(itemContaUC);
                 }
             }
@@ -211,7 +203,6 @@ namespace POSIDigitalPrinter.View
             return removeFromScreen;
         }
 
-
         public void obtertimerMinimo()
         {
             AccountItem itemData = this.contaData.Items[0];
@@ -256,7 +247,6 @@ namespace POSIDigitalPrinter.View
 
         public void ColorItem()
         {
-
             for (int i = 0; i <= ctrlListView.Items.Count; i++)
             {
 
@@ -298,7 +288,8 @@ namespace POSIDigitalPrinter.View
         public void SelectItem()
         {
             ctrlListView.Focus(FocusState.Programmatic);
-            ctrlListView.SelectedIndex = navIndexItem;
+            if (ctrlListView.Items.Count > 0)
+                ctrlListView.SelectedIndex = navIndexItem;
         }
 
         public void NavItem(int estado)

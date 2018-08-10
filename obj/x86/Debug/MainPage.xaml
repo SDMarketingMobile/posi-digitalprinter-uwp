@@ -92,7 +92,7 @@
                         Grid.Row="2"
                         Visibility="Visible">
 
-            <Grid Width="370" Height="310" >
+            <Grid Width="370" Height="265" >
 
                 <ListView x:ConnectionId='11' 
                     x:Name="lvConfig"
@@ -105,11 +105,11 @@
                             <Setter Property="Padding" Value="0,0,0,0"/>
                         </Style>
                     </ListView.ItemContainerStyle>
-                    
+
                     <!--     EXIBIR CONTAS EM LISTA      -->
                     <ListViewItem>
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                            <TextBlock x:ConnectionId='32'
+                            <TextBlock x:ConnectionId='28'
                                 x:Name="tbViewMode"
                                 Text="Exibir as contas em lista :" 
                                 FontSize="19" 
@@ -117,7 +117,7 @@
                                 VerticalAlignment="Top" 
                                 Margin="0,10,0,0"/>
 
-                            <ToggleSwitch x:ConnectionId='33' 
+                            <ToggleSwitch x:ConnectionId='29' 
                                 x:Name="tgViewMode"
                                 HorizontalAlignment="Left" 
                                 Margin="220,4,0,0" 
@@ -131,7 +131,7 @@
                     <!--     TIPO DA TELA      -->
                     <ListViewItem>
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="358">
-                            <TextBlock x:ConnectionId='30'
+                            <TextBlock x:ConnectionId='26'
                                 x:Name="tbViewMode1"
                                 Text="Tipo da tela :" 
                                 FontSize="19" 
@@ -139,10 +139,10 @@
                                 VerticalAlignment="Top" 
                                 Margin="0,10,0,0"/>
 
-                            <TextBlock x:ConnectionId='31'
+                            <TextBlock x:ConnectionId='27'
                                 x:Name="tbTpTela"
                                 FontSize="19"
-                                Text="Cozinha"
+                                Text="Produção"
                                 Margin="0,10,0,0" 
                                 HorizontalAlignment="Right" 
                                 VerticalAlignment="Center" 
@@ -161,14 +161,15 @@
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
                                 Margin="0,10,0,0"/>
-                            
-                            <Grid Margin="120,0,0,0">
-                                <TextBlock x:ConnectionId='26' x:Name="tbipA1"
-                                Text="192" 
+
+                            <Grid Margin="114,0,0,0">
+                                <TextBlock x:ConnectionId='22' x:Name="tbipA1"
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
+                                Width="32"
                                 Margin="104,10,0,0"/>
 
                                 <TextBlock
@@ -178,12 +179,13 @@
                                 VerticalAlignment="Top" 
                                 Margin="138,10,0,0"/>
 
-                                <TextBlock x:ConnectionId='27' x:Name="tbipA2"
-                                Text="168" 
+                                <TextBlock x:ConnectionId='23' x:Name="tbipA2"
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
+                                Width="32"
                                 Margin="142,10,0,0"/>
 
                                 <TextBlock
@@ -193,8 +195,8 @@
                                 VerticalAlignment="Top"
                                 Margin="175,10,0,0"/>
 
-                                <TextBlock x:ConnectionId='28' x:Name="tbipA3"
-                                Text="10" 
+                                <TextBlock x:ConnectionId='24' x:Name="tbipA3"
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
@@ -209,12 +211,13 @@
                                 VerticalAlignment="Top" 
                                 Margin="212,10,0,0"/>
 
-                                <TextBlock x:ConnectionId='29' x:Name="tbipA4"
-                                Text="10" 
+                                <TextBlock x:ConnectionId='25' x:Name="tbipA4"
+                                Text="000" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
+                                Width="32"
                                 Margin="217,10,0,0"/>
                             </Grid>
                         </Grid>
@@ -231,7 +234,7 @@
                                 Margin="0,10,0,0"/>
                             <Grid Margin="296,0,0,0">
 
-                                <TextBlock x:ConnectionId='21' x:Name="tbPortAPI1"
+                                <TextBlock x:ConnectionId='17' x:Name="tbPortAPI1"
                                 Text="0" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
@@ -239,7 +242,7 @@
                                 TextAlignment="Center"
                                 Margin="0,10,0,0"/>
 
-                                <TextBlock x:ConnectionId='22' x:Name="tbPortAPI2"
+                                <TextBlock x:ConnectionId='18' x:Name="tbPortAPI2"
                                 Text="0" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
@@ -247,7 +250,7 @@
                                 TextAlignment="Center"
                                 Margin="13,10,0,0"/>
 
-                                <TextBlock x:ConnectionId='23' x:Name="tbPortAPI3"
+                                <TextBlock x:ConnectionId='19' x:Name="tbPortAPI3"
                                 Text="0" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
@@ -255,7 +258,7 @@
                                 TextAlignment="Center"
                                 Margin="26,10,0,0"/>
 
-                                <TextBlock x:ConnectionId='24' x:Name="tbPortAPI4"
+                                <TextBlock x:ConnectionId='20' x:Name="tbPortAPI4"
                                 Text="0" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
@@ -263,81 +266,13 @@
                                 TextAlignment="Center"
                                 Margin="39,10,0,0"/>
 
-                                <TextBlock x:ConnectionId='25' x:Name="tbPortAPI5"
+                                <TextBlock x:ConnectionId='21' x:Name="tbPortAPI5"
                                 Text="0" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top"
                                 TextAlignment="Center"
                                 Margin="52,10,0,0"/>
-                            </Grid>
-                        </Grid>
-                    </ListViewItem>
-
-                    <!--     SOCKET IP      -->
-                    <ListViewItem>
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                            <TextBlock 
-                                Text="Socket IP :" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Margin="0,10,0,0"/>
-                            <Grid Margin="120,0,0,0">
-
-                                <TextBlock x:ConnectionId='17' x:Name="tbipS1"
-                                Text="192" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                TextAlignment="Center"
-                                Margin="104,10,0,0"/>
-
-                                <TextBlock
-                                Text="." 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Margin="138,10,0,0"/>
-
-                                <TextBlock x:ConnectionId='18' x:Name="tbipS2"
-                                Text="168" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                TextAlignment="Center"
-                                Margin="142,10,0,0"/>
-
-                                <TextBlock
-                                Text="." 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                Margin="175,10,0,0"/>
-
-                                <TextBlock x:ConnectionId='19' x:Name="tbipS3"
-                                Text="10" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                TextAlignment="Center"
-                                Width="32"
-                                Margin="180,10,0,0"/>
-
-                                <TextBlock
-                                Text="." 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Margin="212,10,0,0"/>
-
-                                <TextBlock x:ConnectionId='20' x:Name="tbipS4"
-                                Text="10" 
-                                FontSize="19" 
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top"
-                                TextAlignment="Center"
-                                Margin="217,10,0,0"/>
                             </Grid>
                         </Grid>
                     </ListViewItem>
@@ -407,11 +342,7 @@
 
                 </ListView>
             </Grid>
-            
-            
-
         </ContentDialog>
-        <RelativePanel HorizontalAlignment="Left" Height="100" Margin="648,436,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 
