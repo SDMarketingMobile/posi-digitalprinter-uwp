@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using POSIDigitalPrinterAPIUtil.Controller;
 using POSIDigitalPrinterAPIUtil.Model;
 using System.Threading.Tasks;
+using POSIDigitalPrinterAPIUtil.Enumerator;
 
 // O modelo de item de Controle de Usuário está documentado em https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -48,7 +49,7 @@ namespace POSIDigitalPrinter.View
 
         public void Initialize()
         {
-            this.tbconta.Text = this.contaData.Name + ": " + this.contaData.Number.ToString().PadLeft(4, '0');
+            this.tbconta.Text = AccountTypeExtensions.GetName(this.contaData.Type) + ": " + this.contaData.Number.ToString().PadLeft(4, '0');
 
             obtertimerMaximo();
             obtertimerMinimo();

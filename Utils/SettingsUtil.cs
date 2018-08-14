@@ -39,11 +39,13 @@ namespace POSIDigitalPrinter.Utils
         
         public void SaveSettings(Model.Settings settings)
         {
-            SettingsContainer.Values["view.mode"]   = (int) settings.ViewMode;
-            SettingsContainer.Values["screen.type"] = (int) settings.ScreenType;
-            SettingsContainer.Values["api.ip"]      = settings.ApiIp;
-            SettingsContainer.Values["api.port"]    = settings.ApiPort;
-            SettingsContainer.Values["socket.port"] = settings.LocalSocketPort;
+            SettingsContainer.Values["view.mode"]               = (int) settings.ViewMode;
+            SettingsContainer.Values["screen.type"]             = (int) settings.ScreenType;
+            SettingsContainer.Values["api.ip"]                  = settings.ApiIp;
+            SettingsContainer.Values["api.port"]                = settings.ApiPort;
+            SettingsContainer.Values["socket.port"]             = settings.LocalSocketPort;
+            SettingsContainer.Values["delivery.device.ip"]      = settings.DeliveryDeviceIp;
+            SettingsContainer.Values["delivery.device.port"]    = settings.DeliveryDevicePort;
         }
 
         public Model.Settings GetSettings()
@@ -73,6 +75,16 @@ namespace POSIDigitalPrinter.Utils
             if (SettingsContainer.Values.ContainsKey("socket.port"))
             {
                 settings.LocalSocketPort = (int)SettingsContainer.Values["socket.port"];
+            }
+
+            if (SettingsContainer.Values.ContainsKey("delivery.device.ip"))
+            {
+                settings.ApiIp = (string)SettingsContainer.Values["delivery.device.ip"];
+            }
+
+            if (SettingsContainer.Values.ContainsKey("delivery.device.port"))
+            {
+                settings.ApiPort = (int)SettingsContainer.Values["delivery.device.port"];
             }
 
             return settings;

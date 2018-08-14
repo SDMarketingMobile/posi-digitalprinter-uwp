@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Machine>LAPTOP-31MAHHRV</Machine>
+    <Machine>DESKTOP-9UEV9V5</Machine>
     <WindowsUser>lukas</WindowsUser>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetOsVersion>10.0</TargetOsVersion>
@@ -10,22 +10,22 @@
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>b3daac66-4c11-468b-a371-992879517bab</PackageIdentityName>
     <PackageIdentityPublisher>CN=lukas</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\obj\x86\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\obj\x86\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType></RemoteDeploymentType>
     <PackageRegistrationPath></PackageRegistrationPath>
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\AppX</LayoutDir>
+    <LayoutDir>C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\AppX</LayoutDir>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\Core\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\POSIDigitalPrinter.exe">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\POSIDigitalPrinter.exe">
       <PackagePath>entrypoint\POSIDigitalPrinter.exe</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\lukas\.nuget\packages\flurl\2.8.0\lib\netstandard2.0\Flurl.dll">
@@ -547,65 +547,71 @@
     <AppxPackagedFile Include="C:\Users\lukas\.nuget\packages\system.runtime.compilerservices.unsafe\4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll">
       <PackagePath>System.Runtime.CompilerServices.Unsafe.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-dll\bin\Debug\netstandard2.0\POSIDigitalPrinterAPIUtil.dll">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinterAPIUtil\bin\Debug\netstandard2.0\POSIDigitalPrinterAPIUtil.dll">
       <PackagePath>POSIDigitalPrinterAPIUtil.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Properties\Default.rd.xml">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\POSIDigitalPrinter.xr.xml">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Resources\InterfaceEpsonNF32.dll">
+      <PackagePath>Resources\InterfaceEpsonNF32.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\Resources\InterfaceEpsonNF64.dll">
+      <PackagePath>Resources\InterfaceEpsonNF64.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\POSIDigitalPrinter.xr.xml">
       <PackagePath>POSIDigitalPrinter.xr.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\App.xbf">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\MainPage.xbf">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\Themes\Generic.xbf">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\Themes\Generic.xbf">
       <PackagePath>Themes\Generic.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\View\ContaUserControl.xbf">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\View\ContaUserControl.xbf">
       <PackagePath>View\ContaUserControl.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\View\ItemContaUserControl.xbf">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\View\ItemContaUserControl.xbf">
       <PackagePath>View\ItemContaUserControl.xbf</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\resources.pri">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x86\Debug\Core\POSIDigitalPrinter.exe">
+    <AppxPackagedFile Include="C:\Users\lukas\Desktop\POSIDigitalPrinter\POSIDigitalPrinter\bin\x86\Debug\Core\POSIDigitalPrinter.exe">
       <PackagePath>POSIDigitalPrinter.exe</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>

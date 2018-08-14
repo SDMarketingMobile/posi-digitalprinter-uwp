@@ -1,3 +1,4 @@
+WinMetadata\Windows.winmd
 Assets\LockScreenLogo.scale-200.png
 Assets\SplashScreen.scale-200.png
 Assets\Square150x150Logo.scale-200.png
@@ -12,4 +13,5 @@ Themes\Generic.xbf
 View\ContaUserControl.xbf
 View\ItemContaUserControl.xbf
 Properties\Default.rd.xml
-WinMetadata\Windows.winmd
+Resources\InterfaceEpsonNF32.dll
+Resources\InterfaceEpsonNF64.dll

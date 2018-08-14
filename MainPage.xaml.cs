@@ -7,7 +7,12 @@ using Windows.UI.Xaml.Media;
 using Windows.System;
 using Windows.UI;
 using POSIDigitalPrinterAPIUtil.Model;
+using POSIDigitalPrinter.Printer;
+using POSIDigitalPrinter.Enumerator;
 using System.Threading;
+using Windows.Devices.SerialCommunication;
+using POSIDigitalPrinterAPIUtil.Enumerator;
+using POSIDigitalPrinter.Utils;
 
 namespace POSIDigitalPrinter
 {
@@ -61,7 +66,88 @@ namespace POSIDigitalPrinter
             {
                 this.StartSocketServer();
             }
+
+            this.testPrint();
         }
+        
+        public async void testPrint()
+        {
+            /*using (var client = new SocketClient())
+            {
+                client.Connect(localSettings.DeliveryDeviceIp, localSettings.DeliveryDevicePort);
+                client.sendData(""); // converter objeto p/ json
+            }*/
+
+            var opt = new PrinterImpl();
+            List<SerialDevice> devs = await opt.ListSerialPort();
+            if (devs.Count > 0)
+            {
+                Account accoutMock = new Account();
+
+                accoutMock.Type = AccountType.SALAO;
+                accoutMock.Number = 5;
+                accoutMock.Items = new List<AccountItem>();
+
+                AccountItem i1 = new AccountItem();
+                i1.Id = 0;
+                i1.Name = "DUPLO BACON";
+                i1.Quantity = 1;
+                i1.PrepareTime = 50;
+                i1.ComboName = "DUPLO BACON";
+                i1.Aditionals = new List<AccountItemAditional>();
+
+                AccountItemAditional a1 = new AccountItemAditional();
+                a1.Name = "HAMBURGUE";
+
+                AccountItemAditional a2 = new AccountItemAditional();
+                a2.Name = "BATATAS";
+
+                i1.Aditionals.Add(a1);
+                i1.Aditionals.Add(a2);
+                accoutMock.Items.Add(i1);
+
+                AccountItem i2 = new AccountItem();
+                i2.Id = 1;
+                i2.Name = "LANCHE";
+                i2.Quantity = 1;
+                i2.PrepareTime = 48;
+                i2.Aditionals = new List<AccountItemAditional>();
+
+                AccountItemAditional a3 = new AccountItemAditional();
+                a3.Name = "BATATAS";
+
+                i2.Aditionals.Add(a3);
+
+                accoutMock.Items.Add(i2);
+
+                AccountItem i3 = new AccountItem();
+                i3.Id = 2;
+                i3.Name = "LANCHE";
+                i3.Quantity = 1;
+                i3.PrepareTime = 46;
+
+                accoutMock.Items.Add(i3);
+
+                AccountItem i4 = new AccountItem();
+                i4.Id = 3;
+                i4.Name = "asdasdLANCHE";
+                i4.Quantity = 1;
+                i4.PrepareTime = 46;
+
+                accoutMock.Items.Add(i4);
+
+                AccountItem i5 = new AccountItem();
+                i5.Id = 5;
+                i5.Name = "asdasdLANCHE";
+                i5.Quantity = 1;
+                i5.PrepareTime = 46;
+
+                accoutMock.Items.Add(i5);
+
+                this.printReceipt(devs[0], accoutMock);
+            }
+        }
+
         private Utils.SocketServer socket;
 
         private void StartSocketServer()
@@ -92,6 +178,51 @@ namespace POSIDigitalPrinter
             catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+        }
+
+        public void printReceipt(SerialDevice serialDevice, Account account)
+        {
+            using (var daruma = new DarumaImpl(serialDevice))
+            {
+                daruma.Print("------------------------------------------------\n");
+                daruma.Print("Data: 07/06/2017 15:50:23\n");
+                daruma.Font(Fonts.FONT_EXPANDED);
+                daruma.FontStyle(Enumerator.Style.BOLD);
+                daruma.Print(account.Type.GetName() + ": "+ account.Number.ToString().PadLeft(4, '0') + "\n");
+                daruma.Font(Fonts.FONT_NORMAL);
+                daruma.FontStyle(Enumerator.Style.PLAIN);
+                daruma.Print("------------------------------------------------\n");
+
+                daruma.Print("\n");
+
+                daruma.FontStyle(Enumerator.Style.BOLD);
+                daruma.Print("Qtd    Descricao\n");
+                daruma.FontStyle(Enumerator.Style.PLAIN);
+                daruma.Font(Fonts.FONT_LARGE);
+
+                foreach(AccountItem item in account.Items)
+                {
+                    daruma.Print(item.Quantity.ToString().PadLeft(2, '0') + "    "+ item.Name);
+                    if (!String.IsNullOrEmpty(item.ComboName))
+                    {
+                        daruma.Print(" (" + item.ComboName + ")");
+                    }
+                    daruma.Print("\n");
+
+                    if (item.Aditionals != null && item.Aditionals.Count > 0)
+                    {
+                        foreach (AccountItemAditional aditional in item.Aditionals)
+                        {
+                            daruma.Print("      - " + aditional.Name + "\n");
+                        }
+                    }
+                }
+
+                daruma.Font(Fonts.FONT_NORMAL);
+                daruma.Print("------------------------------------------------\n");
+                daruma.Forward(1);
+                daruma.Beep();
             }
         }
 
@@ -183,7 +314,7 @@ namespace POSIDigitalPrinter
 
                         Account contaData = new Account();
 
-                        contaData.Name = "CONTA ";
+                        contaData.Type = AccountType.SALAO;
                         contaData.Number = 5;
                         contaData.Items = new List<AccountItem>();
 

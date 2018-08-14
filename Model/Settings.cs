@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.SerialCommunication;
 
 namespace POSIDigitalPrinter.Model
 {
@@ -26,5 +27,7 @@ namespace POSIDigitalPrinter.Model
         public String ApiIp { get; set; }
         public int ApiPort { get; set; }
         public int LocalSocketPort { get; set; }
+        public String DeliveryDeviceIp { get; set; }
+        public int DeliveryDevicePort { get; set; }
     }
 }

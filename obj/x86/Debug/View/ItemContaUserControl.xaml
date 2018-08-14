@@ -66,8 +66,8 @@
             Height="24"
             Visibility="Collapsed"/>
 
-        <StackPanel x:ConnectionId='8' 
-            x:Name="stpAdicional" 
+        <StackPanel x:ConnectionId='8'
+            x:Name="stpAdicional"
             Margin="25,29,0,23"
             Background="Transparent"
             HorizontalAlignment="Left"

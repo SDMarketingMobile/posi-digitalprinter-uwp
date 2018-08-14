@@ -101,13 +101,31 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enumerator\Alignment.cs" />
+    <Compile Include="Enumerator\AsciiTable.cs" />
+    <Compile Include="Enumerator\BitmapSize.cs" />
+    <Compile Include="Enumerator\DualConnectionType.cs" />
+    <Compile Include="Enumerator\DualPrinterType.cs" />
+    <Compile Include="Enumerator\DualSpeedType.cs" />
+    <Compile Include="Enumerator\Fonts.cs" />
+    <Compile Include="Enumerator\PrintDeviceType.cs" />
+    <Compile Include="Enumerator\QRCodeSize.cs" />
+    <Compile Include="Enumerator\Style.cs" />
+    <Compile Include="Enumerator\Symbol.cs" />
+    <Compile Include="Enumerator\TypeBarCode.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Settings.cs" />
+    <Compile Include="Printer\DarumaImpl.cs" />
+    <Compile Include="Printer\PrinterImpl.cs" />
+    <Compile Include="Utils\EnumUtil.cs" />
     <Compile Include="Utils\SettingsUtil.cs" />
+    <Compile Include="Utils\SocketClient.cs" />
     <Compile Include="Utils\SocketServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\WinApplication.cs" />
+    <Compile Include="Utils\WinVersion.cs" />
     <Compile Include="View\ContaUserControl.xaml.cs">
       <DependentUpon>ContaUserControl.xaml</DependentUpon>
     </Compile>
@@ -130,6 +148,8 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Resources\InterfaceEpsonNF32.dll" />
+    <Content Include="Resources\InterfaceEpsonNF64.dll" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -167,8 +187,8 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\posi-digitalprinter-dll\POSIDigitalPrinterAPIUtil.csproj">
-      <Project>{632a32aa-10f1-4237-80e3-1073a886a333}</Project>
+    <ProjectReference Include="..\POSIDigitalPrinterAPIUtil\POSIDigitalPrinterAPIUtil.csproj">
+      <Project>{172cb379-e1db-4c6f-9c65-61c4015c18e5}</Project>
       <Name>POSIDigitalPrinterAPIUtil</Name>
     </ProjectReference>
   </ItemGroup>
