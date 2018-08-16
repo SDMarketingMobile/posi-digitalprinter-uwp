@@ -19,6 +19,9 @@ using POSIDigitalPrinterAPIUtil.Controller;
 using POSIDigitalPrinterAPIUtil.Model;
 using System.Threading.Tasks;
 using POSIDigitalPrinterAPIUtil.Enumerator;
+using POSIDigitalPrinter.Printer;
+using Windows.Devices.SerialCommunication;
+using POSIDigitalPrinter.Enumerator;
 
 // O modelo de item de Controle de Usuário está documentado em https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -200,6 +203,67 @@ namespace POSIDigitalPrinter.View
 
             if (qtdFinalizados == this.contaData.Items.Count)
                 removeFromScreen = true;
+
+            return removeFromScreen;
+        }
+
+        public void printReceipt(SerialDevice serialDevice, Account account)
+        {
+            using (var daruma = new DarumaImpl(serialDevice))
+            {
+                DateTime thisDay = DateTime.Now;
+                daruma.Print("------------------------------------------------\n");
+                daruma.Print("Data: " + thisDay + "\n");
+                daruma.Font(Fonts.FONT_EXPANDED);
+                daruma.FontStyle(Enumerator.Style.BOLD);
+                daruma.Print(account.Type.GetName() + ": " + account.Number.ToString().PadLeft(4, '0') + "\n");
+                daruma.Font(Fonts.FONT_NORMAL);
+                daruma.FontStyle(Enumerator.Style.PLAIN);
+                daruma.Print("------------------------------------------------\n");
+
+                daruma.Print("\n");
+
+                daruma.FontStyle(Enumerator.Style.BOLD);
+                daruma.Print("Qtd    Descricao\n\n");
+                daruma.FontStyle(Enumerator.Style.PLAIN);
+                daruma.Font(Fonts.FONT_LARGE);
+
+                foreach (AccountItem item in account.Items)
+                {
+                    daruma.Print(item.Quantity.ToString().PadLeft(2, '0') + "    " + item.Name);
+                    if (!String.IsNullOrEmpty(item.ComboName))
+                    {
+                        daruma.Print(" (" + item.ComboName + ")");
+                    }
+                    daruma.Print("\n");
+
+                    if (item.Aditionals != null && item.Aditionals.Count > 0)
+                    {
+                        foreach (AccountItemAditional aditional in item.Aditionals)
+                        {
+                            daruma.Print("      - " + aditional.Name + "\n");
+                        }
+                    }
+                }
+
+                daruma.Font(Fonts.FONT_NORMAL);
+                daruma.Print("------------------------------------------------\n");
+                daruma.Forward(1);
+                daruma.Beep();
+            }
+        }
+
+        public async Task<Boolean> PrintConta()
+        {
+            Boolean removeFromScreen = false;
+
+            var opt = new PrinterImpl();
+            List<SerialDevice> devs = await opt.ListSerialPort();
+            if (devs.Count > 0)
+            {
+                this.printReceipt(devs[0], contaData);
+                removeFromScreen = true;
+            }
 
             return removeFromScreen;
         }

@@ -79,12 +79,12 @@ namespace POSIDigitalPrinter.Utils
 
             if (SettingsContainer.Values.ContainsKey("delivery.device.ip"))
             {
-                settings.ApiIp = (string)SettingsContainer.Values["delivery.device.ip"];
+                settings.DeliveryDeviceIp = (string)SettingsContainer.Values["delivery.device.ip"];
             }
 
             if (SettingsContainer.Values.ContainsKey("delivery.device.port"))
             {
-                settings.ApiPort = (int)SettingsContainer.Values["delivery.device.port"];
+                settings.DeliveryDevicePort = (int)SettingsContainer.Values["delivery.device.port"];
             }
 
             return settings;

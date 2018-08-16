@@ -32,6 +32,7 @@ namespace POSIDigitalPrinter.Utils
             writer.WriteUInt32(writer.MeasureString(message));
             writer.WriteString(message);
 
+
             try
             {
                 await writer.StoreAsync();

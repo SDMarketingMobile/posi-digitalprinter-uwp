@@ -1,1 +1,0 @@
-C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\POSIDigitalPrinter.csproj;x64

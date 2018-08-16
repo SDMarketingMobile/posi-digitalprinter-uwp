@@ -13,6 +13,9 @@ using System.Threading;
 using Windows.Devices.SerialCommunication;
 using POSIDigitalPrinterAPIUtil.Enumerator;
 using POSIDigitalPrinter.Utils;
+using Windows.Networking.Connectivity;
+using System.Linq;
+using Windows.Networking;
 
 namespace POSIDigitalPrinter
 {
@@ -28,17 +31,21 @@ namespace POSIDigitalPrinter
         int qtdConta = 0;
 
         bool ipConfigA = false;
-        int ipA1 = 000;
-        int ipA2 = 000;
-        int ipA3 = 000;
-        int ipA4 = 000;
-        int ipIndexA = 0;
+        int ipA1, ipA2, ipA3, ipA4, ipIndexA;
 
         bool prtConfigA = false;
         int prtA1, prtA2, prtA3, prtA4, prtA5 , prtIndexA;
 
         bool prtConfigS = false;
         int prtS1, prtS2, prtS3, prtS4, prtS5 , prtIndexS;
+
+        bool ipConfigD = false;
+        int ipD1, ipD2, ipD3, ipD4, ipIndexD;
+
+        bool prtConfigD = false;
+        int prtD1, prtD2, prtD3, prtD4, prtD5, prtIndexD;
+
+        string ipLocal;
 
         Utils.SettingsUtil settingsUtil = Utils.SettingsUtil.Instance;
         Model.Settings localSettings;
@@ -56,6 +63,11 @@ namespace POSIDigitalPrinter
                 settings.LocalSocketPort = 9000;
                 settings.ViewMode = Model.ViewMode.GRID;
                 settings.ScreenType = Model.ScreenType.PRODUCTION;
+                if (localSettings.DeliveryDeviceIp == null)
+                {
+                    settings.DeliveryDeviceIp = "192.168.0.0";
+                    settings.DeliveryDevicePort = 0;
+                }
 
                 settingsUtil.SaveSettings(settings);
             }
@@ -67,7 +79,7 @@ namespace POSIDigitalPrinter
                 this.StartSocketServer();
             }
 
-            this.testPrint();
+            //this.testPrint();
         }
         
         public async void testPrint()
@@ -450,8 +462,8 @@ namespace POSIDigitalPrinter
                             {
                                 this.statusEnter = true;
                             }
-                            
 
+                            // --------------------------- ENTER TELA DE PRODUÇÃO ----------------------------- //
                             if (this.statusEnter == true && this.enterUpdate == true && localSettings.ScreenType == Model.ScreenType.PRODUCTION)
                             {
                                 if (ctrlGridView.SelectedIndex == navIndexConta)
@@ -477,6 +489,51 @@ namespace POSIDigitalPrinter
                                             this.NavConta();
                                         }
                                         
+                                    }
+                                }
+                            }
+
+                            // --------------------------- ENTER TELA DE CONFERENCIA ----------------------------- //
+                            if (this.statusEnter == false && this.enterUpdate == false && localSettings.ScreenType == Model.ScreenType.CONFERENCE)
+                            {
+                                this.ctrlGridView.Items.RemoveAt(ctrlGridView.SelectedIndex);
+
+                                if (this.navIndexConta == 0)
+                                {
+                                    this.statusEnter = false;
+                                    this.enterUpdate = false;
+                                    this.NavConta();
+                                }
+                                else
+                                {
+                                    this.statusEnter = false;
+                                    this.enterUpdate = false;
+                                    this.navIndexConta -= 1;
+                                    this.NavConta();
+                                }
+                            }
+
+                            // --------------------------- ENTER TELA DE ENTREGA ----------------------------- //
+                            if (this.statusEnter == false && this.enterUpdate == false && localSettings.ScreenType == Model.ScreenType.ENTREGA)
+                            {
+                                View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
+                                Boolean removeFromScreenE = await contaUCslc.PrintConta();
+                                if (removeFromScreenE)
+                                {
+                                    this.ctrlGridView.Items.RemoveAt(ctrlGridView.SelectedIndex);
+
+                                    if (this.navIndexConta == 0)
+                                    {
+                                        this.statusEnter = false;
+                                        this.enterUpdate = false;
+                                        this.NavConta();
+                                    }
+                                    else
+                                    {
+                                        this.statusEnter = false;
+                                        this.enterUpdate = false;
+                                        this.navIndexConta -= 1;
+                                        this.NavConta();
                                     }
                                 }
                             }
@@ -519,6 +576,7 @@ namespace POSIDigitalPrinter
                         await MyContentDialog.ShowAsync();
                         this.NavConfig();
                         break;
+
                 }
             }
         }
@@ -586,11 +644,27 @@ namespace POSIDigitalPrinter
             }
         }
 
-        // ----------------------------------- CONFIGURAÇÕES ---------------------------------------- //
+        // ----------------------------------- CONFIGURAÇÕES ------------------------------------------ //
 
         private Model.ViewMode viewMode;
 
         private Model.ScreenType screenType;
+
+        private string GetLocalIp()
+        {
+            var icp = NetworkInformation.GetInternetConnectionProfile();
+
+            if (icp?.NetworkAdapter == null) return null;
+            var hostname =
+                NetworkInformation.GetHostNames()
+                    .SingleOrDefault(
+                        hn =>
+                            hn.IPInformation?.NetworkAdapter != null && hn.IPInformation.NetworkAdapter.NetworkAdapterId
+                            == icp.NetworkAdapter.NetworkAdapterId);
+
+            // the ip address
+            return hostname?.CanonicalName;
+        }
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
@@ -615,7 +689,6 @@ namespace POSIDigitalPrinter
         {
             if(configView == 1)
             {
-                
                 switch (e.Key)
                 {
                     // --------- ENTER ---------- 
@@ -675,13 +748,44 @@ namespace POSIDigitalPrinter
                             }
                         }
 
-                        // ------------ Salvar ---------------
+                        // ------------ config delivery IP ------------------
                         if (lvConfig.SelectedIndex == 5)
+                        {
+                            if (tpTela == 0)
+                            {
+                                if (ipConfigD == false)
+                                {
+                                    ipConfigD = true;
+                                    ipIndexD = 1;
+                                    ColorIpD();
+                                }
+                            }
+                        }
+
+                        // ------------ config delivery Port ------------------
+                        if (lvConfig.SelectedIndex == 6)
+                        {
+                            if (tpTela == 0)
+                            {
+                                if (prtConfigD == false)
+                                {
+                                    prtConfigD = true;
+                                    prtIndexD = 1;
+                                    ColorPrtD();
+                                }
+                            }
+                        }
+
+
+                        // ------------ Salvar ---------------
+                        if (lvConfig.SelectedIndex == 7)
                         {
 
                             localSettings = settingsUtil.GetSettings();
 
                             var settings = new Model.Settings();
+
+                            // ------------------------ OBTEM O IP DA API ------------------------------------
                             settings.ApiIp = ipA1 + "." + ipA2 + "." + ipA3 + "." + ipA4;
 
                             // ------------------------ OBTEM A PORTA DA API ---------------------------------
@@ -707,6 +811,21 @@ namespace POSIDigitalPrinter
                                 settings.LocalSocketPort = (prtS4 * 10) + prtS5;
                             if (prtS1 == 0 && prtS2 == 0 && prtS3 == 0 && prtS4 == 0)
                                 settings.LocalSocketPort = prtS5;
+
+                            // ------------------------ OBTEM O IP DA DELIVERY REMOTE ----------------------------
+                            settings.DeliveryDeviceIp = ipD1 + "." + ipD2 + "." + ipD3 + "." + ipD4;
+
+                            // -------------------- OBTEM A PORTA DO DELIVERY REMOTE -----------------------------
+                            settings.DeliveryDevicePort = (prtD1 * 10000) + (prtD2 * 1000) + (prtD3 * 100) + (prtD4 * 10) + prtD5;
+
+                            if (prtD1 == 0)
+                                settings.DeliveryDevicePort = (prtD2 * 1000) + (prtD3 * 100) + (prtD4 * 10) + prtD5;
+                            if (prtD1 == 0 && prtD2 == 0)
+                                settings.DeliveryDevicePort = (prtD3 * 100) + (prtD4 * 10) + prtD5;
+                            if (prtD1 == 0 && prtD2 == 0 && prtD3 == 0)
+                                settings.DeliveryDevicePort = (prtD4 * 10) + prtD5;
+                            if (prtD1 == 0 && prtD2 == 0 && prtD3 == 0 && prtD4 == 0)
+                                settings.DeliveryDevicePort = prtD5;
 
                             settings.ViewMode = viewMode;
 
@@ -736,7 +855,7 @@ namespace POSIDigitalPrinter
                                         contaUCslc1.StatusEnter(statusEnter);
                                         contaUCslc1.NavItem(3);
                                         break;
-                                    case Model.ScreenType.DELIVERY:
+                                    case Model.ScreenType.ENTREGA:
                                         this.statusEnter = false;
                                         this.enterUpdate = false;
                                         View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
@@ -759,7 +878,7 @@ namespace POSIDigitalPrinter
                     // --------- CONFIG/VOLTA ----------
                     case VirtualKey.Number6:
 
-                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false)
+                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false && ipConfigD == false && prtConfigD == false)
                         {
                             configView = 0;
                             tgViewMode.IsOn = false;
@@ -771,7 +890,7 @@ namespace POSIDigitalPrinter
 
                     // --------- DOWN ----------
                     case VirtualKey.Number0:
-                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false)
+                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false && ipConfigD == false && prtConfigD == false)
                         {
                             navIndexConfig++;
                             NavLimitConfig();
@@ -781,7 +900,7 @@ namespace POSIDigitalPrinter
 
                     // --------- UP ----------
                     case VirtualKey.Number2:
-                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false)
+                        if(ipConfigA == false && prtConfigA == false && prtConfigS == false && ipConfigD == false && prtConfigD == false)
                         {
                             navIndexConfig--;
                             NavLimitConfig();
@@ -791,7 +910,7 @@ namespace POSIDigitalPrinter
 
                     // --------- VOLTA ----------
                     case VirtualKey.Number1:
-                        if (ipConfigA == false && prtConfigA == false && prtConfigS == false)
+                        if (ipConfigA == false && prtConfigA == false && prtConfigS == false && ipConfigD == false && prtConfigD == false)
                         {
                             if(configView == 1 && ipConfigA == false)
                             configView = 0;
@@ -816,7 +935,7 @@ namespace POSIDigitalPrinter
                         }
                         break;
                     case VirtualKey.Escape:
-                        if (ipConfigA == false && prtConfigA == false && prtConfigS == false)
+                        if (ipConfigA == false && prtConfigA == false && prtConfigS == false && ipConfigD == false && prtConfigD == false)
                         {
                             if (configView == 1 && ipConfigA == false)
                                 configView = 0;
@@ -845,32 +964,51 @@ namespace POSIDigitalPrinter
 
         private void LoadConfig()
         {
+            foreach (HostName localHostName in NetworkInformation.GetHostNames())
+            {
+                if (localHostName.IPInformation != null)
+                {
+                    if (localHostName.Type == HostNameType.Ipv4)
+                    {
+                        ipLocal = localHostName.ToString();
+                        break;
+                    }
+                }
+            }
+
+            tbIpLocal.Text = ipLocal;
+
             localSettings = settingsUtil.GetSettings();
-            // ------------ LOAD VIEWMODE -----------
+            // ------------ LOAD VIEWMODE ----------- //
             if (localSettings.ViewMode == Model.ViewMode.GRID)
                 tgViewMode.IsOn = false;
             else
                 tgViewMode.IsOn = true;
 
-            //------------ LOAD SCREEN TYPE ------------
+            //------------ LOAD SCREEN TYPE ------------ //
             switch (localSettings.ScreenType)
             {
                 case Model.ScreenType.PRODUCTION:
                     tpTela = 0;
                     tbTpTela.Text = "Produção";
+                    gridApiD.Opacity = 1;
+                    gridPortD.Opacity = 1;
                     break;
                 case Model.ScreenType.CONFERENCE:
                     tpTela = 1;
                     tbTpTela.Text = "Conferência";
+                    gridApiD.Opacity = 0.3;
+                    gridPortD.Opacity = 0.3;
                     break;
-                case Model.ScreenType.DELIVERY:
+                case Model.ScreenType.ENTREGA:
                     tpTela = 2;
-                    tbTpTela.Text = "Delivery";
+                    tbTpTela.Text = "Entrega";
+                    gridApiD.Opacity = 0.3;
+                    gridPortD.Opacity = 0.3;
                     break;
             }
 
-            //---------- LOAD API IP ---------------
-
+            //---------- LOAD API IP ------------------- //
             int indexPonto = localSettings.ApiIp.IndexOf(".");
             int indexPonto2 = localSettings.ApiIp.IndexOf(".", (indexPonto + 1));
             int indexPonto3 = localSettings.ApiIp.IndexOf(".", (indexPonto2 + 1));
@@ -880,7 +1018,7 @@ namespace POSIDigitalPrinter
             this.ipA3 = Convert.ToInt16(localSettings.ApiIp.Substring(indexPonto2 + 1, (indexPonto3 - indexPonto2 - 1)));
             this.ipA4 = Convert.ToInt16(localSettings.ApiIp.Substring(indexPonto3 + 1, localSettings.ApiIp.Length - indexPonto3 - 1));
 
-            //--------- LOAD API PORT -------------
+            //--------- LOAD API PORT ---------------- //
             string portA = localSettings.ApiPort.ToString();
             switch (portA.Length)
             {
@@ -911,7 +1049,7 @@ namespace POSIDigitalPrinter
                     break;
             }
 
-            //--------- LOAD SOCKET PORT -------------
+            //--------- LOAD SOCKET PORT -------------- //
             string portS = localSettings.LocalSocketPort.ToString();
             switch (portS.Length)
             {
@@ -942,7 +1080,46 @@ namespace POSIDigitalPrinter
                     break;
             }
 
-            //
+            //---------- LOAD DELIVERY IP ------------------- //
+            int indexPontoD = localSettings.DeliveryDeviceIp.IndexOf(".");
+            int indexPontoD2 = localSettings.DeliveryDeviceIp.IndexOf(".", (indexPontoD + 1));
+            int indexPontoD3 = localSettings.DeliveryDeviceIp.IndexOf(".", (indexPontoD2 + 1));
+
+            this.ipD1 = Convert.ToInt16(localSettings.DeliveryDeviceIp.Substring(0, indexPontoD));
+            this.ipD2 = Convert.ToInt16(localSettings.DeliveryDeviceIp.Substring((indexPontoD + 1), (indexPontoD2 - indexPontoD - 1)));
+            this.ipD3 = Convert.ToInt16(localSettings.DeliveryDeviceIp.Substring(indexPontoD2 + 1, (indexPontoD3 - indexPontoD2 - 1)));
+            this.ipD4 = Convert.ToInt16(localSettings.DeliveryDeviceIp.Substring(indexPontoD3 + 1, localSettings.DeliveryDeviceIp.Length - indexPontoD3 - 1));
+
+            //--------- LOAD SOCKET PORT -------------- //
+            string portD = localSettings.DeliveryDevicePort.ToString();
+            switch (portD.Length)
+            {
+                case 1:
+                    this.prtD5 = Convert.ToInt32(portD.Substring(0, 1));
+                    break;
+                case 2:
+                    this.prtD5 = Convert.ToInt16(portD.Substring(1, 1));
+                    this.prtD4 = Convert.ToInt16(portD.Substring(0, 1));
+                    break;
+                case 3:
+                    this.prtD5 = Convert.ToInt16(portD.Substring(2, 1));
+                    this.prtD4 = Convert.ToInt16(portD.Substring(1, 1));
+                    this.prtD3 = Convert.ToInt16(portD.Substring(0, 1));
+                    break;
+                case 4:
+                    this.prtD5 = Convert.ToInt16(portD.Substring(3, 1));
+                    this.prtD4 = Convert.ToInt16(portD.Substring(2, 1));
+                    this.prtD3 = Convert.ToInt16(portD.Substring(1, 1));
+                    this.prtD2 = Convert.ToInt16(portD.Substring(0, 1));
+                    break;
+                case 5:
+                    this.prtD5 = Convert.ToInt16(portD.Substring(4, 1));
+                    this.prtD4 = Convert.ToInt16(portD.Substring(3, 1));
+                    this.prtD3 = Convert.ToInt16(portD.Substring(2, 1));
+                    this.prtD2 = Convert.ToInt16(portD.Substring(1, 1));
+                    this.prtD1 = Convert.ToInt16(portD.Substring(0, 1));
+                    break;
+            }
 
             AtualizarIps();
         }
@@ -954,19 +1131,27 @@ namespace POSIDigitalPrinter
                 case 0:
                     tbTpTela.Text = "Produção";
                     screenType = Model.ScreenType.PRODUCTION;
+                    gridApiD.Opacity = 1;
+                    gridPortD.Opacity = 1;
                     break;
                 case 1:
                     tbTpTela.Text = "Conferência";
                     screenType = Model.ScreenType.CONFERENCE;
+                    gridApiD.Opacity = 0.3;
+                    gridPortD.Opacity = 0.3;
                     break;
                 case 2:
-                    tbTpTela.Text = "Delivery";
-                    screenType = Model.ScreenType.DELIVERY;
+                    tbTpTela.Text = "Entrega";
+                    screenType = Model.ScreenType.ENTREGA;
+                    gridApiD.Opacity = 0.3;
+                    gridPortD.Opacity = 0.3;
                     break;
                 case 3:
                     tpTela = 0;
                     tbTpTela.Text = "Produção";
                     screenType = Model.ScreenType.PRODUCTION;
+                    gridApiD.Opacity = 1;
+                    gridPortD.Opacity = 1;
                     break;
             }
         }
@@ -1025,7 +1210,7 @@ namespace POSIDigitalPrinter
         {
             if ((ipA1 + 2) > 1000)
                 ipA1 = 0;
-            else if (ipA1-1 < 0)
+            else if (ipA1-1 < -1)
                 ipA1 = 999;
         }
         private void ipA2Limit()
@@ -1296,6 +1481,209 @@ namespace POSIDigitalPrinter
             }
         }
 
+        // --------------- CONFIG DELIVERY IP -------------------
+        private void IpDPicker(int ipIndexD)
+        {
+            switch (ipIndexD)
+            {
+                case 1:
+                    ipD1++;
+                    ipD1Limit();
+                    break;
+                case 2:
+                    ipD2++;
+                    ipD2Limit();
+                    break;
+                case 3:
+                    ipD3++;
+                    ipD3Limit();
+                    break;
+                case 4:
+                    ipD4++;
+                    ipD4Limit();
+                    break;
+                case -1:
+                    ipD1--;
+                    ipD1Limit();
+                    break;
+                case -2:
+                    ipD2--;
+                    ipD2Limit();
+                    break;
+                case -3:
+                    ipD3--;
+                    ipD3Limit();
+                    break;
+                case -4:
+                    ipD4--;
+                    ipD4Limit();
+                    break;
+            }
+        }
+        private void ipD1Limit()
+        {
+            if ((ipD1 + 2) > 1000)
+                ipD1 = 0;
+            else if (ipD1 - 1 < -1)
+                ipD1 = 999;
+        }
+        private void ipD2Limit()
+        {
+            if ((ipD2 + 2) > 1000)
+                ipD2 = 0;
+            else if (ipD2 - 1 < -1)
+                ipD2 = 999;
+        }
+        private void ipD3Limit()
+        {
+            if ((ipD3 + 2) > 1000)
+                ipD3 = 0;
+            else if (ipD3 - 1 < -1)
+                ipD3 = 999;
+        }
+        private void ipD4Limit()
+        {
+            if ((ipD4 + 2) > 1000)
+                ipD4 = 0;
+            else if (ipD4 - 1 < -1)
+                ipD4 = 999;
+        }
+
+        private void ColorIpD()
+        {
+            tbipD1.Foreground = new SolidColorBrush(Colors.Black);
+            tbipD2.Foreground = new SolidColorBrush(Colors.Black);
+            tbipD3.Foreground = new SolidColorBrush(Colors.Black);
+            tbipD4.Foreground = new SolidColorBrush(Colors.Black);
+
+            switch (ipIndexD)
+            {
+                case 1:
+                    tbipD1.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+                case 2:
+                    tbipD2.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+                case 3:
+                    tbipD3.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+                case 4:
+                    tbipD4.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+            }
+        }
+
+        // ------------ CONFIG SOCKET PORT -------------
+        private void PortPickerD(int prtIndexD)
+        {
+            switch (prtIndexD)
+            {
+                case 1:
+                    prtD1++;
+                    prtLimitD1();
+                    break;
+                case 2:
+                    prtD2++;
+                    prtLimitD2();
+                    break;
+                case 3:
+                    prtD3++;
+                    prtLimitD3();
+                    break;
+                case 4:
+                    prtD4++;
+                    prtLimitD4();
+                    break;
+                case 5:
+                    prtD5++;
+                    prtLimitD5();
+                    break;
+                case -1:
+                    prtD1--;
+                    prtLimitD1();
+                    break;
+                case -2:
+                    prtD2--;
+                    prtLimitD2();
+                    break;
+                case -3:
+                    prtD3--;
+                    prtLimitD3();
+                    break;
+                case -4:
+                    prtD4--;
+                    prtLimitD4();
+                    break;
+                case -5:
+                    prtD5--;
+                    prtLimitD5();
+                    break;
+            }
+        }
+        private void prtLimitD1()
+        {
+            if ((prtD1) > 9)
+                prtD1 = 0;
+            else if (prtD1 - 1 < -1)
+                prtD1 = 9;
+        }
+        private void prtLimitD2()
+        {
+            if ((prtD2) > 9)
+                prtD2 = 0;
+            else if (prtD2 - 1 < -1)
+                prtD2 = 9;
+        }
+        private void prtLimitD3()
+        {
+            if ((prtD3) > 9)
+                prtD3 = 0;
+            else if (prtD3 - 1 < -1)
+                prtD3 = 9;
+        }
+        private void prtLimitD4()
+        {
+            if ((prtD4) > 9)
+                prtD4 = 0;
+            else if (prtD4 - 1 < -1)
+                prtD4 = 9;
+        }
+        private void prtLimitD5()
+        {
+            if ((prtD5) > 9)
+                prtD5 = 0;
+            else if (prtD5 - 1 < -1)
+                prtD5 = 9;
+        }
+
+        private void ColorPrtD()
+        {
+            tbPortD1.Foreground = new SolidColorBrush(Colors.Black);
+            tbPortD2.Foreground = new SolidColorBrush(Colors.Black);
+            tbPortD3.Foreground = new SolidColorBrush(Colors.Black);
+            tbPortD4.Foreground = new SolidColorBrush(Colors.Black);
+            tbPortD5.Foreground = new SolidColorBrush(Colors.Black);
+
+            switch (prtIndexD)
+            {
+                case 1:
+                    tbPortD1.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+                case 2:
+                    tbPortD2.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+                case 3:
+                    tbPortD3.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+                case 4:
+                    tbPortD4.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+                case 5:
+                    tbPortD5.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                    break;
+            }
+        }
+
         // ----------------- EVENTOS TECLAS IP -------------------- //
         private void lvConfig_KeyDown(object sender, KeyRoutedEventArgs e)
         {
@@ -1303,6 +1691,8 @@ namespace POSIDigitalPrinter
             {
                 // ----------- DOWN -------------
                 case VirtualKey.Number0:
+
+                    // ------- API IP ----------- //
                     if (ipConfigA == true)
                     {
                         switch (ipIndexA)
@@ -1326,6 +1716,7 @@ namespace POSIDigitalPrinter
                         }
                     }
 
+                    // ------- API PORT --------- //
                     if (prtConfigA == true)
                     {
                         switch (prtIndexA)
@@ -1352,6 +1743,7 @@ namespace POSIDigitalPrinter
                         }
                     }
 
+                    // ------ SOCKET PORT ------- //
                     if (prtConfigS == true)
                     {
                         switch (prtIndexS)
@@ -1377,10 +1769,63 @@ namespace POSIDigitalPrinter
                                 break;
                         }
                     }
+
+                    // ------ DELIVERY IP ------- //
+                    if (ipConfigD == true)
+                    {
+                        switch (ipIndexD)
+                        {
+                            case 1:
+                                IpDPicker(-1);
+                                break;
+                            case 2:
+                                IpDPicker(-2);
+                                break;
+                            case 3:
+                                IpDPicker(-3);
+                                break;
+                            case 4:
+                                IpDPicker(-4);
+                                break;
+                            case 5:
+                                ipConfigD= false;
+                                ipIndexD = 0;
+                                break;
+                        }
+                    }
+
+                    // ----- DELIVERY PORT ------ //
+                    if (prtConfigD == true)
+                    {
+                        switch (prtIndexD)
+                        {
+                            case 1:
+                                PortPickerD(-1);
+                                break;
+                            case 2:
+                                PortPickerD(-2);
+                                break;
+                            case 3:
+                                PortPickerD(-3);
+                                break;
+                            case 4:
+                                PortPickerD(-4);
+                                break;
+                            case 5:
+                                PortPickerD(-5);
+                                break;
+                            case 6:
+                                prtConfigD = false;
+                                prtIndexD = 0;
+                                break;
+                        }
+                    }
                     break;
 
                 // ----------- UP -------------
                 case VirtualKey.Number2:
+
+                    // ------- API IP ----------- //
                     if (ipConfigA == true)
                     {
                         switch (ipIndexA)
@@ -1404,6 +1849,7 @@ namespace POSIDigitalPrinter
                         }
                     }
 
+                    // ------- API PORT --------- //
                     if (prtConfigA == true)
                     {
                         switch (prtIndexA)
@@ -1430,6 +1876,7 @@ namespace POSIDigitalPrinter
                         }
                     }
 
+                    // ------ SOCKET PORT ------- //
                     if (prtConfigS == true)
                     {
                         switch (prtIndexS)
@@ -1455,10 +1902,63 @@ namespace POSIDigitalPrinter
                                 break;
                         }
                     }
+
+                    // ------ DELIVERY IP ------- //
+                    if (ipConfigD == true)
+                    {
+                        switch (ipIndexD)
+                        {
+                            case 1:
+                                IpDPicker(1);
+                                break;
+                            case 2:
+                                IpDPicker(2);
+                                break;
+                            case 3:
+                                IpDPicker(3);
+                                break;
+                            case 4:
+                                IpDPicker(4);
+                                break;
+                            case 5:
+                                ipConfigD = false;
+                                ipIndexD = 0;
+                                break;
+                        }
+                    }
+
+                    // ----- DELIVERY PORT ------ //
+                    if (prtConfigD == true)
+                    {
+                        switch (prtIndexD)
+                        {
+                            case 1:
+                                PortPickerD(1);
+                                break;
+                            case 2:
+                                PortPickerD(2);
+                                break;
+                            case 3:
+                                PortPickerD(3);
+                                break;
+                            case 4:
+                                PortPickerD(4);
+                                break;
+                            case 5:
+                                PortPickerD(5);
+                                break;
+                            case 6:
+                                prtConfigD = false;
+                                prtIndexD = 0;
+                                break;
+                        }
+                    }
                     break;
 
                 // ----------- ENTER -------------
                 case VirtualKey.Number3:
+
+                    // ------- API IP ----------- //
                     if (ipIndexA >= 5)
                     {
                         ipConfigA = false;
@@ -1468,6 +1968,7 @@ namespace POSIDigitalPrinter
                         ipIndexA++;
                     }
 
+                    // ------- API PORT --------- //
                     if (prtIndexA >= 6)
                     {
                         prtConfigA = false;
@@ -1477,6 +1978,7 @@ namespace POSIDigitalPrinter
                         prtIndexA++;
                     }
 
+                    // ------ SOCKET PORT ------- //
                     if (prtIndexS >= 6)
                     {
                         prtConfigS = false;
@@ -1484,6 +1986,26 @@ namespace POSIDigitalPrinter
                     if (prtConfigS == true)
                     {
                         prtIndexS++;
+                    }
+
+                    // ------ DELIVERY IP ------- //
+                    if (ipIndexD >= 5)
+                    {
+                        ipConfigD = false;
+                    }
+                    if (ipConfigD == true)
+                    {
+                        ipIndexD++;
+                    }
+
+                    // ----- DELIVERY PORT ------ //
+                    if (prtIndexD >= 6)
+                    {
+                        prtConfigD = false;
+                    }
+                    if (prtConfigD == true)
+                    {
+                        prtIndexD++;
                     }
                     break;
 
@@ -1519,12 +2041,15 @@ namespace POSIDigitalPrinter
 
         private void AtualizarIps()
         {
+
+            // ------- API IP ----------- //
             ColorIpA();
             tbipA1.Text = ipA1.ToString();
             tbipA2.Text = ipA2.ToString();
             tbipA3.Text = ipA3.ToString();
             tbipA4.Text = ipA4.ToString();
 
+            // ------- API PORT --------- //
             ColorPrtA();
             tbPortAPI1.Text = prtA1.ToString();
             tbPortAPI2.Text = prtA2.ToString();
@@ -1532,12 +2057,28 @@ namespace POSIDigitalPrinter
             tbPortAPI4.Text = prtA4.ToString();
             tbPortAPI5.Text = prtA5.ToString();
 
+            // ------ SOCKET PORT ------- //
             ColorPrtS();
             tbPortSOC1.Text = prtS1.ToString();
             tbPortSOC2.Text = prtS2.ToString();
             tbPortSOC3.Text = prtS3.ToString();
             tbPortSOC4.Text = prtS4.ToString();
             tbPortSOC5.Text = prtS5.ToString();
+
+            // ------ DELIVERY IP ------- //
+            ColorIpD();
+            tbipD1.Text = ipD1.ToString();
+            tbipD2.Text = ipD2.ToString();
+            tbipD3.Text = ipD3.ToString();
+            tbipD4.Text = ipD4.ToString();
+
+            // ----- DELIVERY PORT ------ //
+            ColorPrtD();
+            tbPortD1.Text = prtD1.ToString();
+            tbPortD2.Text = prtD2.ToString();
+            tbPortD3.Text = prtD3.ToString();
+            tbPortD4.Text = prtD4.ToString();
+            tbPortD5.Text = prtD5.ToString();
         }
     }
 }

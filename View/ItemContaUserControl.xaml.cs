@@ -17,6 +17,7 @@ using POSIDigitalPrinterAPIUtil.Controller;
 using POSIDigitalPrinterAPIUtil.Model;
 using System.Threading.Tasks;
 using System.Net;
+using POSIDigitalPrinter.Utils;
 
 // O modelo de item de Controle de Usuário está documentado em https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -128,7 +129,7 @@ namespace POSIDigitalPrinter.View
 
         public void ViewMode()
         {
-            localSettings = settingsUtil.GetSettings(); ;
+            localSettings = settingsUtil.GetSettings(); 
 
             if (localSettings.ViewMode == Model.ViewMode.LIST)
             {
@@ -164,26 +165,6 @@ namespace POSIDigitalPrinter.View
                 }
                 this.tbExecutingTime.Text = min.ToString().PadLeft(2, '0') + ":" + seg.ToString().PadLeft(2, '0');
             }
-        }
-
-        public void DefaultColorItem(int timerInicial)
-        {
-            if (timerInicial <= (timerMinimo * 0.75))
-            {
-                grid.Background = new SolidColorBrush(Colors.LightGreen);
-            }
-            else if (timerInicial >= timerMinimo)
-            {
-                grid.Background = new SolidColorBrush(Colors.LightCoral);
-            }
-            else
-            {
-                grid.Background = new SolidColorBrush(Colors.LightYellow);
-            }
-            tbItemName.Foreground = new SolidColorBrush(Colors.Black);
-            tbCombinado.Foreground = new SolidColorBrush(Colors.Black);
-            tbExecutingTime.Foreground = new SolidColorBrush(Colors.Black);
-            tbPrepareTime.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         public void obtertimerMinimo()
@@ -242,6 +223,25 @@ namespace POSIDigitalPrinter.View
                 {
                     elipStatusItem.Fill = new SolidColorBrush(Colors.Green);
                     Timer.Stop();
+
+                    localSettings = settingsUtil.GetSettings();
+
+                    string account = Newtonsoft.Json.JsonConvert.SerializeObject(contaData);
+                    Account clone = Newtonsoft.Json.JsonConvert.DeserializeObject<Account>(account);
+                    clone.Items.Clear();
+                    clone.Items.Add(itemData);
+
+
+                    if (localSettings.ScreenType == Model.ScreenType.PRODUCTION)
+                    {
+                        string contaEntrega = Newtonsoft.Json.JsonConvert.SerializeObject(clone);
+
+                        using (var client = new SocketClient())
+                        {
+                            client.Connect(localSettings.DeliveryDeviceIp, localSettings.DeliveryDevicePort);
+                            client.sendData(contaEntrega); // converter objeto p/ json
+                        }
+                    }
                 }
                 else
                 {
@@ -259,8 +259,66 @@ namespace POSIDigitalPrinter.View
             tbCombinado.Foreground = new SolidColorBrush(Colors.White);
             tbExecutingTime.Foreground = new SolidColorBrush(Colors.White);
             tbPrepareTime.Foreground = new SolidColorBrush(Colors.White);
-            
-            
+
+            stpAdicional.Children.Clear();
+
+            if (this.itemData.Aditionals != null && this.itemData.Aditionals.Count > 0)
+            {
+                for (int i = 0; i < this.itemData.Aditionals.Count; i++)
+                {
+                    AccountItemAditional adicionalData = this.itemData.Aditionals[i];
+
+                    TextBlock tbAdicional = new TextBlock
+                    {
+                        Width = 284,
+                        Text = "- " + adicionalData.Name,
+                        FontSize = 18,
+                        Foreground = new SolidColorBrush(Colors.White),
+                        Padding = new Thickness(0)
+                    };
+                    this.stpAdicional.Children.Add(tbAdicional);
+                }
+            }
+        }
+
+        public void DefaultColorItem(int timerInicial)
+        {
+            if (timerInicial <= (timerMinimo * 0.75))
+            {
+                grid.Background = new SolidColorBrush(Colors.LightGreen);
+            }
+            else if (timerInicial >= timerMinimo)
+            {
+                grid.Background = new SolidColorBrush(Colors.LightCoral);
+            }
+            else
+            {
+                grid.Background = new SolidColorBrush(Colors.LightYellow);
+            }
+            tbItemName.Foreground = new SolidColorBrush(Colors.Black);
+            tbCombinado.Foreground = new SolidColorBrush(Colors.Black);
+            tbExecutingTime.Foreground = new SolidColorBrush(Colors.Black);
+            tbPrepareTime.Foreground = new SolidColorBrush(Colors.Black);
+
+            stpAdicional.Children.Clear();
+
+            if (this.itemData.Aditionals != null && this.itemData.Aditionals.Count > 0)
+            {
+                for (int i = 0; i < this.itemData.Aditionals.Count; i++)
+                {
+                    AccountItemAditional adicionalData = this.itemData.Aditionals[i];
+
+                    TextBlock tbAdicional = new TextBlock
+                    {
+                        Width = 284,
+                        Text = "- " + adicionalData.Name,
+                        FontSize = 18,
+                        Foreground = new SolidColorBrush(Colors.Black),
+                        Padding = new Thickness(0)
+                    };
+                    this.stpAdicional.Children.Add(tbAdicional);
+                }
+            }
         }
     }
 

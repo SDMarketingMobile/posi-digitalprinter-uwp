@@ -90,14 +90,31 @@
                         Title="Configurações"
                         IsPrimaryButtonEnabled="{Binding IsChecked, ElementName=checkBoxAgree, Mode=OneWay}"
                         Grid.Row="2"
-                        Visibility="Visible">
+                        Visibility="Visible" Closing="MyContentDialog_Closing">
 
-            <Grid Width="370" Height="265" >
+            <Grid Width="370" Height="390" >
+
+                <Grid
+                    Width="370"
+                    Height="38" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top">
+                    <TextBlock 
+                        FontSize="19"
+                        Text="Local Machine IP :"/>
+
+                    <TextBlock
+                        x:Name="tbIpLocal"
+                        FontSize="19"
+                        Text="000.000.000.000"
+                        Margin="230,0,0,0" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Top"/>
+                </Grid>
 
                 <ListView 
                     x:Name="lvConfig"
                     KeyUp="MyContentDialog_KeyUp"
-                    KeyDown="lvConfig_KeyDown">
+                    KeyDown="lvConfig_KeyDown"
+                    Margin="0,30,0,0">
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
@@ -321,6 +338,133 @@
                                 Margin="39,10,0,0"/>
 
                                 <TextBlock x:Name="tbPortSOC5"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="52,10,0,0"/>
+                            </Grid>
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--     DELIVERY IP      -->
+                    <ListViewItem>
+                        <Grid 
+                            x:Name="gridApiD" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <TextBlock 
+                                Text="Entrega Remote IP :" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+
+                            <Grid Margin="114,0,0,0">
+                                <TextBlock x:Name="tbipD1"
+                                Text="000" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Width="32"
+                                Margin="104,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="138,10,0,0"/>
+
+                                <TextBlock x:Name="tbipD2"
+                                Text="000" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Width="32"
+                                Margin="142,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                Margin="175,10,0,0"/>
+
+                                <TextBlock x:Name="tbipD3"
+                                Text="000" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                TextAlignment="Center"
+                                Width="32"
+                                Margin="180,10,0,0"/>
+
+                                <TextBlock
+                                Text="." 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="212,10,0,0"/>
+
+                                <TextBlock x:Name="tbipD4"
+                                Text="000" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Width="32"
+                                Margin="217,10,0,0"/>
+                            </Grid>
+                        </Grid>
+                    </ListViewItem>
+
+                    <!--       DELIVERY  PORT      -->
+                    <ListViewItem>
+                        <Grid 
+                            x:Name="gridPortD" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                            <TextBlock 
+                                Text="Entrega Remote Port:" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Margin="0,10,0,0"/>
+                            <Grid Margin="296,0,0,0">
+
+                                <TextBlock x:Name="tbPortD1"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="0,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortD2"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="13,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortD3"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                TextAlignment="Center"
+                                Margin="26,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortD4"
+                                Text="0" 
+                                FontSize="19" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top"
+                                TextAlignment="Center"
+                                Margin="39,10,0,0"/>
+
+                                <TextBlock x:Name="tbPortD5"
                                 Text="0" 
                                 FontSize="19" 
                                 HorizontalAlignment="Left" 

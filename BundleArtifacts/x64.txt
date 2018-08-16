@@ -1,2 +1,2 @@
-MainPackage=C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\POSIDigitalPrinter_1.0.4.0_x64_Debug.appx
-SymbolPackage=C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\AppPackages\POSIDigitalPrinter_1.0.4.0_Debug_Test\POSIDigitalPrinter_1.0.4.0_x64_Debug.appxsym
+MainPackage=C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\bin\x64\Debug\POSIDigitalPrinter_1.0.6.0_x64_Debug.appx
+SymbolPackage=C:\POSI-DigitalPrinter\posi-digitalprinter\posi-digitalprinter-uwp\AppPackages\POSIDigitalPrinter_1.0.6.0_Debug_Test\POSIDigitalPrinter_1.0.6.0_x64_Debug.appxsym

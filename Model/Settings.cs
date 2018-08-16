@@ -17,7 +17,7 @@ namespace POSIDigitalPrinter.Model
     {
         PRODUCTION  = 1,
         CONFERENCE  = 2,
-        DELIVERY    = 3
+        ENTREGA     = 3
     }
 
     public class Settings
