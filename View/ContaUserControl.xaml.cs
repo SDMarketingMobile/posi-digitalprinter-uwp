@@ -54,12 +54,12 @@ namespace POSIDigitalPrinter.View
         {
             this.tbconta.Text = AccountTypeExtensions.GetName(this.contaData.Type) + ": " + this.contaData.Number.ToString().PadLeft(4, '0');
 
-            obtertimerMaximo();
-            obtertimerMinimo();
+            this.obtertimerMaximo();
+            this.obtertimerMinimo();
 
-            ViewMode();
-            
-            timerScreen();
+            this.ViewMode();
+
+            this.timerScreen();
         }
 
         public void ViewMode()
@@ -96,7 +96,6 @@ namespace POSIDigitalPrinter.View
                 }
             }
         }
-
 
         private void timerScreen()
         {
@@ -207,6 +206,24 @@ namespace POSIDigitalPrinter.View
             return removeFromScreen;
         }
 
+        public bool RemoveContaCf()
+        {
+            Boolean removeFromScreenCf = false;
+
+            int qtdFinalizados = 0;
+
+            foreach (AccountItem itemContaData in this.contaData.Items)
+            {
+                if (itemContaData.StatusCode == 2)
+                    qtdFinalizados++;
+            }
+
+            if (qtdFinalizados == this.contaData.Items.Count)
+                removeFromScreenCf = true;
+
+            return removeFromScreenCf;
+        }
+
         public void printReceipt(SerialDevice serialDevice, Account account)
         {
             using (var daruma = new DarumaImpl(serialDevice))
@@ -264,7 +281,7 @@ namespace POSIDigitalPrinter.View
                 this.printReceipt(devs[0], contaData);
                 removeFromScreen = true;
             }
-
+            removeFromScreen = true;
             return removeFromScreen;
         }
 

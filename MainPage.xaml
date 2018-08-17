@@ -90,7 +90,7 @@
                         Title="Configurações"
                         IsPrimaryButtonEnabled="{Binding IsChecked, ElementName=checkBoxAgree, Mode=OneWay}"
                         Grid.Row="2"
-                        Visibility="Visible" Closing="MyContentDialog_Closing">
+                        Visibility="Visible">
 
             <Grid Width="370" Height="390" >
 

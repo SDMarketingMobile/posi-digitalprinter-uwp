@@ -65,6 +65,8 @@ namespace POSIDigitalPrinter.View
             this.tbItemName.Text =  this.itemData.Quantity + " " + this.itemData.Name;
             this.PrepareTime = this.itemData.PrepareTime *this.itemData.Quantity;
 
+            InitialStatusCode();
+
             obtertimerMaximo();
             obtertimerMinimo();
 
@@ -142,6 +144,22 @@ namespace POSIDigitalPrinter.View
                 this.Width = 429;
                 this.Height = 38 + widthAdicional + (combinado * 11);
                 this.Margin = new Thickness(1);
+            }
+        }
+
+        private void InitialStatusCode()
+        {
+            switch (this.itemData.StatusCode)
+            {
+                case 0:
+                    elipStatusItem.Fill = new SolidColorBrush(Colors.White);
+                    break;
+                case 1:
+                    elipStatusItem.Fill = new SolidColorBrush(Colors.Blue);
+                    break;
+                case 2:
+                    elipStatusItem.Fill = new SolidColorBrush(Colors.Green);
+                    break;
             }
         }
 

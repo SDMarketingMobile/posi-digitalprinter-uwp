@@ -16,6 +16,7 @@ using POSIDigitalPrinter.Utils;
 using Windows.Networking.Connectivity;
 using System.Linq;
 using Windows.Networking;
+using System.Collections.ObjectModel;
 
 namespace POSIDigitalPrinter
 {
@@ -78,10 +79,9 @@ namespace POSIDigitalPrinter
             {
                 this.StartSocketServer();
             }
-
             //this.testPrint();
         }
-        
+
         public async void testPrint()
         {
             /*using (var client = new SocketClient())
@@ -496,20 +496,25 @@ namespace POSIDigitalPrinter
                             // --------------------------- ENTER TELA DE CONFERENCIA ----------------------------- //
                             if (this.statusEnter == false && this.enterUpdate == false && localSettings.ScreenType == Model.ScreenType.CONFERENCE)
                             {
-                                this.ctrlGridView.Items.RemoveAt(ctrlGridView.SelectedIndex);
+                                View.ContaUserControl contaUCslc = (View.ContaUserControl)this.ctrlGridView.SelectedItem;
+                                Boolean removeFromScreenCf = contaUCslc.RemoveContaCf();
+                                if (removeFromScreenCf)
+                                {
+                                    this.ctrlGridView.Items.RemoveAt(ctrlGridView.SelectedIndex);
 
-                                if (this.navIndexConta == 0)
-                                {
-                                    this.statusEnter = false;
-                                    this.enterUpdate = false;
-                                    this.NavConta();
-                                }
-                                else
-                                {
-                                    this.statusEnter = false;
-                                    this.enterUpdate = false;
-                                    this.navIndexConta -= 1;
-                                    this.NavConta();
+                                    if (this.navIndexConta == 0)
+                                    {
+                                        this.statusEnter = false;
+                                        this.enterUpdate = false;
+                                        this.NavConta();
+                                    }
+                                    else
+                                    {
+                                        this.statusEnter = false;
+                                        this.enterUpdate = false;
+                                        this.navIndexConta -= 1;
+                                        this.NavConta();
+                                    }
                                 }
                             }
 
@@ -1846,7 +1851,7 @@ namespace POSIDigitalPrinter
                                 ipConfigA = false;
                                 ipIndexA = 0;
                                 break;
-                        }
+                        }  
                     }
 
                     // ------- API PORT --------- //
