@@ -29,9 +29,6 @@ namespace POSIDigitalPrinter.View
 {
     public sealed partial class ContaUserControl : UserControl
     {
-        Utils.SettingsUtil settingsUtil = Utils.SettingsUtil.Instance;
-        Model.Settings localSettings;
-
         Account contaData;
         int navIndexItem = 0;
         int timerInicial = -1;
@@ -46,7 +43,6 @@ namespace POSIDigitalPrinter.View
         {
             this.InitializeComponent();
             this.contaData = contaData;
-            this.localSettings = settingsUtil.GetSettings();
             this.Initialize();
         }
 
@@ -57,14 +53,14 @@ namespace POSIDigitalPrinter.View
             this.obtertimerMaximo();
             this.obtertimerMinimo();
 
-            this.ViewMode();
+            this.ChangeViewMode();
 
             this.timerScreen();
         }
 
-        public void ViewMode()
+        public void ChangeViewMode()
         {
-            localSettings = settingsUtil.GetSettings();
+            Model.Settings localSettings = Utils.SettingsUtil.Instance.GetSettings();
 
             if (localSettings.ViewMode == Model.ViewMode.LIST)
             {
@@ -76,7 +72,7 @@ namespace POSIDigitalPrinter.View
                     ItemContaUserControl itemUC = (ItemContaUserControl)ctrlListView.Items[i];
                     if (ctrlListView.Items.Count >= 1)
                     {
-                        itemUC.ViewMode();
+                        itemUC.ChangeViewMode();
                     }
                 }
             }
@@ -92,7 +88,7 @@ namespace POSIDigitalPrinter.View
                 ItemContaUserControl itemUC = (ItemContaUserControl)ctrlListView.Items[i];
                 if (ctrlListView.Items.Count >= 1)
                 {
-                    itemUC.ViewMode();
+                    itemUC.ChangeViewMode();
                 }
             }
         }

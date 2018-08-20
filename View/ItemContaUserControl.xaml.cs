@@ -42,17 +42,14 @@ namespace POSIDigitalPrinter.View
         Account contaData;
         AccountItem itemData;
 
-        Model.Settings settings = Utils.SettingsUtil.Instance.GetSettings();
         AccountItemController accountItemController;
-
-        Utils.SettingsUtil settingsUtil = Utils.SettingsUtil.Instance;
-        Model.Settings localSettings;
-
+        
         public ItemContaUserControl(AccountItem itemData, Account contaData)
         {
             this.InitializeComponent();
 
-            accountItemController = new AccountItemController(settings.ApiIp, settings.ApiPort);
+            Model.Settings localSettings = SettingsUtil.Instance.GetSettings();
+            accountItemController = new AccountItemController(localSettings.ApiIp, localSettings.ApiPort);
 
             this.itemData = itemData;
             this.id = itemData.Id;
@@ -112,7 +109,7 @@ namespace POSIDigitalPrinter.View
             {
                 widthAdicional = qtdAdicional * 24;
             }
-            ViewMode();
+            ChangeViewMode();
 
             if (PrepareTime >= 60)
             {
@@ -129,9 +126,9 @@ namespace POSIDigitalPrinter.View
             timerScreen();
         }
 
-        public void ViewMode()
+        public void ChangeViewMode()
         {
-            localSettings = settingsUtil.GetSettings(); 
+            Model.Settings localSettings = SettingsUtil.Instance.GetSettings();
 
             if (localSettings.ViewMode == Model.ViewMode.LIST)
             {
@@ -215,6 +212,8 @@ namespace POSIDigitalPrinter.View
 
         public async Task<int> UpdateStatusItem()
         {
+            Model.Settings localSettings = SettingsUtil.Instance.GetSettings();
+
             this.itemData.StatusCode++;
 
             if (this.itemData.StatusCode == 0)
@@ -242,22 +241,21 @@ namespace POSIDigitalPrinter.View
                     elipStatusItem.Fill = new SolidColorBrush(Colors.Green);
                     Timer.Stop();
 
-                    localSettings = settingsUtil.GetSettings();
-
                     string account = Newtonsoft.Json.JsonConvert.SerializeObject(contaData);
                     Account clone = Newtonsoft.Json.JsonConvert.DeserializeObject<Account>(account);
                     clone.Items.Clear();
                     clone.Items.Add(itemData);
 
-
                     if (localSettings.ScreenType == Model.ScreenType.PRODUCTION)
                     {
                         string contaEntrega = Newtonsoft.Json.JsonConvert.SerializeObject(clone);
 
-                        using (var client = new SocketClient())
+                        using (var client = new POSIDigitalPrinterAPIUtil.Socket.SocketClient(localSettings.DeliveryDeviceIp, localSettings.DeliveryDevicePort))
                         {
-                            client.Connect(localSettings.DeliveryDeviceIp, localSettings.DeliveryDevicePort);
-                            client.sendData(contaEntrega); // converter objeto p/ json
+                            if (client.IsConnected)
+                            {
+                                client.SendData(contaEntrega); // converter objeto p/ json
+                            }
                         }
                     }
                 }

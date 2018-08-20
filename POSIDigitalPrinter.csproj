@@ -187,8 +187,8 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\posi-digitalprinter-dll\POSIDigitalPrinterAPIUtil.csproj">
-      <Project>{632a32aa-10f1-4237-80e3-1073a886a333}</Project>
+    <ProjectReference Include="..\POSIDigitalPrinterAPIUtil\POSIDigitalPrinterAPIUtil.csproj">
+      <Project>{172cb379-e1db-4c6f-9c65-61c4015c18e5}</Project>
       <Name>POSIDigitalPrinterAPIUtil</Name>
     </ProjectReference>
   </ItemGroup>

@@ -20,7 +20,6 @@ namespace POSIDigitalPrinter.Utils
         public async void Connect(string hostname, int port)
         {
             socket = new StreamSocket();
-            socket.Control.KeepAlive = false;
             HostName host = new HostName(hostname);
             await socket.ConnectAsync(host, port.ToString());
         }
@@ -28,20 +27,11 @@ namespace POSIDigitalPrinter.Utils
         public async void sendData(string message)
         {
             DataWriter writer = new DataWriter(this.socket.OutputStream);
-
-            writer.WriteUInt32(writer.MeasureString(message));
+            writer.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
             writer.WriteString(message);
-
-
-            try
-            {
-                await writer.StoreAsync();
-                await writer.FlushAsync();
-            }
-            catch(Exception e)
-            {
-                OnError?.Invoke(e.Message);
-            }
+            await writer.StoreAsync();
+            writer.DetachStream();
+            writer.Dispose();
         }
 
         public void Dispose()

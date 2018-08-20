@@ -166,9 +166,13 @@ namespace POSIDigitalPrinter
         {
             this.socket = new Utils.SocketServer(localSettings.LocalSocketPort);
             this.socket.Start();
-            this.socket.OnError += Socket_OnError;
-            this.socket.OnDataReceived += Socket_OnDataReceived;
+            this.socket.OnError += Socket_OnError; ;
             this.elipStatusSocketConnection.Fill = new SolidColorBrush(Colors.Green);
+        }
+
+        private void Socket_OnError(string message)
+        {
+            throw new NotImplementedException();
         }
 
         private async void Socket_OnDataReceived(string data)
@@ -306,11 +310,6 @@ namespace POSIDigitalPrinter
             }
 
             pagination();
-        }
-
-        private void Socket_OnError(string message)
-        {
-            System.Diagnostics.Debug.WriteLine(message);
         }
 
         // ------------------------------- NAVEGAÇÃO DO TECLADO ---------------------------------------- //
@@ -607,7 +606,7 @@ namespace POSIDigitalPrinter
                 View.ContaUserControl contaUC = (View.ContaUserControl)ctrlGridView.Items[i];
                 if (ctrlGridView.Items.Count >= 1)
                 {
-                    contaUC.ViewMode();
+                    contaUC.ChangeViewMode();
                 }
             }
             ContaQtd();
@@ -840,6 +839,7 @@ namespace POSIDigitalPrinter
                             settingsUtil.SaveSettings(settings);
 
                             localSettings = settingsUtil.GetSettings();
+
                             if (ctrlGridView.Items.Count >= 1)
                             {
                                 for (int i = 0; i <= (ctrlGridView.Items.Count - 1); i++)
@@ -847,7 +847,7 @@ namespace POSIDigitalPrinter
                                     View.ContaUserControl contaUC = (View.ContaUserControl)ctrlGridView.Items[i];
                                     if (ctrlGridView.Items.Count >= 1)
                                     {
-                                        contaUC.ViewMode();
+                                        contaUC.ChangeViewMode();
                                     }
                                 }
 
@@ -966,7 +966,7 @@ namespace POSIDigitalPrinter
                 }
             }
         }
-
+        
         private void LoadConfig()
         {
             foreach (HostName localHostName in NetworkInformation.GetHostNames())

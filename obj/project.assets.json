@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "UAP,Version=v10.0.16299": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -422,6 +431,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -436,6 +446,15 @@
       }
     },
     "UAP,Version=v10.0.16299/win10-arm": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -1015,6 +1034,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -1029,6 +1049,15 @@
       }
     },
     "UAP,Version=v10.0.16299/win10-arm-aot": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -1609,6 +1638,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -1623,6 +1653,15 @@
       }
     },
     "UAP,Version=v10.0.16299/win10-arm64-aot": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -2027,6 +2066,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -2041,6 +2081,15 @@
       }
     },
     "UAP,Version=v10.0.16299/win10-x64": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -2620,6 +2669,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -2634,6 +2684,15 @@
       }
     },
     "UAP,Version=v10.0.16299/win10-x64-aot": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -3214,6 +3273,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -3228,6 +3288,15 @@
       }
     },
     "UAP,Version=v10.0.16299/win10-x86": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -3807,6 +3876,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -3821,6 +3891,15 @@
       }
     },
     "UAP,Version=v10.0.16299/win10-x86-aot": {
+      "Ether.Network/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ether.Network.dll": {}
+        }
+      },
       "Flurl/2.8.0": {
         "type": "package",
         "compile": {
@@ -4401,6 +4480,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Ether.Network": "3.0.0",
           "Flurl": "2.8.0",
           "Flurl.Http": "2.3.2",
           "Microsoft.Win32.Registry": "4.5.0",
@@ -4416,6 +4496,23 @@
     }
   },
   "libraries": {
+    "Ether.Network/3.0.0": {
+      "sha512": "GdvdWe44NooiW4Ir6NrAbLF1kN7p5XOnWMSc4Dr8y8K1MF7sUFydR90p5uwHJQDNy9KOEpKEHK9/x6LhsPgFIw==",
+      "type": "package",
+      "path": "ether.network/3.0.0",
+      "files": [
+        "ether.network.3.0.0.nupkg.sha512",
+        "ether.network.nuspec",
+        "lib/net45/Ether.Network.dll",
+        "lib/net45/Ether.Network.xml",
+        "lib/net46/Ether.Network.dll",
+        "lib/net46/Ether.Network.xml",
+        "lib/netstandard1.3/Ether.Network.dll",
+        "lib/netstandard1.3/Ether.Network.xml",
+        "lib/netstandard2.0/Ether.Network.dll",
+        "lib/netstandard2.0/Ether.Network.xml"
+      ]
+    },
     "Flurl/2.8.0": {
       "sha512": "kI109AZaZMJAc7KF5EQA5S1tTGHw3pW8q2CJg4LtDrrAMKRVXTwDhJ4KuDfpSMOELVX74Cssi+5uwjjwL7jEdg==",
       "type": "package",
@@ -8498,8 +8595,8 @@
     },
     "POSIDigitalPrinterAPIUtil/1.0.0": {
       "type": "project",
-      "path": "../posi-digitalprinter-dll/POSIDigitalPrinterAPIUtil.csproj",
-      "msbuildProject": "../posi-digitalprinter-dll/POSIDigitalPrinterAPIUtil.csproj"
+      "path": "../POSIDigitalPrinterAPIUtil/POSIDigitalPrinterAPIUtil.csproj",
+      "msbuildProject": "../POSIDigitalPrinterAPIUtil/POSIDigitalPrinterAPIUtil.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -8516,11 +8613,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-uwp\\POSIDigitalPrinter.csproj",
+      "projectUniqueName": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\posi-digitalprinter-uwp\\POSIDigitalPrinter.csproj",
       "projectName": "POSIDigitalPrinter",
-      "projectPath": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-uwp\\POSIDigitalPrinter.csproj",
+      "projectPath": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\posi-digitalprinter-uwp\\POSIDigitalPrinter.csproj",
       "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
-      "outputPath": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-uwp\\obj\\",
+      "outputPath": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\posi-digitalprinter-uwp\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -8540,8 +8637,8 @@
       "frameworks": {
         "uap10.0.16299": {
           "projectReferences": {
-            "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-dll\\POSIDigitalPrinterAPIUtil.csproj": {
-              "projectPath": "C:\\POSI-DigitalPrinter\\posi-digitalprinter\\posi-digitalprinter-dll\\POSIDigitalPrinterAPIUtil.csproj"
+            "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\POSIDigitalPrinterAPIUtil\\POSIDigitalPrinterAPIUtil.csproj": {
+              "projectPath": "C:\\Users\\lukas\\Desktop\\POSIDigitalPrinter\\POSIDigitalPrinterAPIUtil\\POSIDigitalPrinterAPIUtil.csproj"
             }
           }
         }
